@@ -5,8 +5,10 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb2D;
     public Bullet bulletPrefab;
 
-    public float moveForce = 1f;
-    public float turnForce = 1f;
+    public float moveForce = 1.5f;
+    public float turnForce = 0.25f;
+    public int numBullets = 1;
+    public int angleChange = -45;
 
     private bool forward;
     private float turn;
@@ -29,7 +31,7 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) {
-            ShootBullet();
+            ShootBullets();
         }
     }
 
@@ -43,12 +45,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void ShootBullet() {
+    private void ShootBullets() {
+        var fireAngle = this.transform.up;
         var rotation = this.transform.rotation;
         rotation *= Quaternion.Euler(0, 0, 90);
-        Bullet bullet = Instantiate(this.bulletPrefab,
-            this.transform.position, rotation);
-        bullet.Shoot(this.transform.up);
+
+        for (int i = 0; i < numBullets; i++) {
+            Bullet bullet = Instantiate(this.bulletPrefab,
+                this.transform.position, rotation);
+
+            bullet.Shoot(fireAngle);
+            rotation *= Quaternion.Euler(0, 0, angleChange);
+            fireAngle = Quaternion.Euler(0, 0, angleChange) * fireAngle;
+        }
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {

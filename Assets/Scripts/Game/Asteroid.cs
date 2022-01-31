@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Asteroid : MonoBehaviour
@@ -8,9 +10,13 @@ public class Asteroid : MonoBehaviour
     public float maxSize = 6.0f;
     public float speed = 15.0f;
     public float maxLifetime = 60.0f;
+    
+    public Powerup[] powerups;
+    public float powerupChance = 10f;
 
     private SpriteRenderer sr;
     private Rigidbody2D rb2D;
+    public Powerup powerup;
 
     private void Awake() {
         sr = GetComponent<SpriteRenderer>();
@@ -37,6 +43,13 @@ public class Asteroid : MonoBehaviour
 
     private void OnCollisionEnter2D (Collision2D collision) {
         if (collision.gameObject.tag == "Bullet") {
+
+            var randChance = Random.Range(0f, 100f);
+            if (randChance <= powerupChance) {
+                Instantiate(powerups[Random.Range(0, powerups.Length)],
+                    transform.position, Quaternion.identity);
+            }
+
             if ((this.size / 2) >= this.minSize) {
                 CreateSplit();
                 CreateSplit();
