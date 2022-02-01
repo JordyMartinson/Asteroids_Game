@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update() {
         forward = Input.GetKey(KeyCode.W);
-
         if (Input.GetKey(KeyCode.A)) {
             turn = 1.0f;
         }

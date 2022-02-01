@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Quit() {
+        PlayerPrefs.DeleteAll(); //FOR TESTING ACHIEVEMENTS
         Application.Quit();
     }
 }

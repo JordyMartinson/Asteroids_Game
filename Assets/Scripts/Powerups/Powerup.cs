@@ -8,6 +8,7 @@ public class Powerup : MonoBehaviour
     public float fadeStart = stayDuration * 0.8f;
     public float effectDuration = 5f;
     public float alphaVal = 0f;
+    public bool powerupActive = false;
 
     SpriteRenderer sr;
 
@@ -25,6 +26,8 @@ public class Powerup : MonoBehaviour
             sr.color = newAlpha;
             yield return null;
         }
-        Destroy(this.gameObject);
+        if (!powerupActive) {
+            Destroy(this.gameObject);
+        }
     }
 }

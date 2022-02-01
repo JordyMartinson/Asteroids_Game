@@ -18,6 +18,8 @@ public class Asteroid : MonoBehaviour
     private Rigidbody2D rb2D;
     public Powerup powerup;
 
+    public bool playerKill = false;
+
     private void Awake() {
         sr = GetComponent<SpriteRenderer>();
         rb2D = GetComponent<Rigidbody2D>();
@@ -56,6 +58,13 @@ public class Asteroid : MonoBehaviour
             }
             FindObjectOfType<GameManager>().AsteroidDestroyed(this);
             Destroy(this.gameObject);
+        }
+        if (collision.gameObject.tag == "Player") {
+            if (playerKill) {
+                AchievementManager.ach02Trigger = true;
+            } else {
+                playerKill = true;
+            }
         }
     }
 

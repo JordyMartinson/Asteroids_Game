@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
             score += 1 * scoreMult;
         }
         scoreText.text = "Score : " + score.ToString();
-        Achievements.ach01Count += score;
+        AchievementManager.ach01Count += score;
     }
 
     public void PlayerDied() {

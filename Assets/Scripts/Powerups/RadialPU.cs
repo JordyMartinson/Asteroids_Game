@@ -19,7 +19,9 @@ public class RadialPU : Powerup
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
 
+        powerupActive = true;
         yield return new WaitForSeconds(effectDuration);
+        powerupActive = false;
 
         playerScript.numBullets = radial/radial;
 
