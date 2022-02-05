@@ -61,7 +61,7 @@ public class Asteroid : MonoBehaviour
         }
         if (collision.gameObject.tag == "Player") {
             if (playerKill) {
-                AchievementManager.ach02Trigger = true;
+                AchievementManager.triggers[2] = true;
             } else {
                 playerKill = true;
             }

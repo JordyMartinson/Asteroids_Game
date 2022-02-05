@@ -6,11 +6,13 @@ TagManager:
   tags:
   - Bullet
   - Asteroid
+  - Undefined
+  - Achievement
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - UI+
   - Water
   - UI
   - Player

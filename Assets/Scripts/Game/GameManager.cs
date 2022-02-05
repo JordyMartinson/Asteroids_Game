@@ -9,24 +9,58 @@ public class GameManager : MonoBehaviour
     public Text livesText;
     public EndMenu gameOver;
 
-    public int lives = 3;
+    public int lives;
     public float respawnTime = 3.0f;
     public float invulnTime = 2.0f;
-    public int score = 0;
-    public int scoreMult = 25;
+    public int score;
+    public int scoreMult;
+    public int total;
+    public static bool paused;
+    public static bool isGameOver;
+
+    public void Awake() {
+        Time.timeScale = 1f;
+        isGameOver = false;
+        paused = false;
+        score = 0;
+        scoreMult = 25;
+        total = 0;
+        lives = 3;
+    }
+
+    public void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver) {
+            if (paused) {
+                PauseUnpause(1f);
+            } else {
+                PauseUnpause(0f);
+            }
+        }
+    }
+
+    public void PauseUnpause(float time) {
+        gameOver.Pause();
+        Time.timeScale = time;
+        if (time == 0f) {
+            paused = true;
+        } else {
+            paused = false;
+        }
+    }
 
     public void AsteroidDestroyed(Asteroid asteroid) {
         this.explosion.transform.position = asteroid.transform.position;
         this.explosion.Play();
 
         if (asteroid.size < 2.5f) {
-            score += 4 * scoreMult;
+            score = (4 * scoreMult);
         } else if (asteroid.size < 4.0f) {
-            score += 2 * scoreMult;
+            score = (2 * scoreMult);
         } else {
-            score += 1 * scoreMult;
+            score = (1 * scoreMult);
         }
-        scoreText.text = "Score : " + score.ToString();
+        total += score;
+        scoreText.text = "Score : " + total.ToString();
         AchievementManager.ach01Count += score;
     }
 
@@ -56,6 +90,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void GameOver() {
+        isGameOver = true;
         livesText.enabled = false;
         scoreText.enabled = false;
         gameOver.Show(score);

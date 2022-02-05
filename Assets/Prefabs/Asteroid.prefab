@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4587476340775840473}
   - component: {fileID: 3465772289092712794}
   - component: {fileID: 7995954665963232441}
+  - component: {fileID: -7767835523593317323}
   m_Layer: 8
   m_Name: Asteroid
   m_TagString: Asteroid
@@ -146,3 +147,19 @@ MonoBehaviour:
   - {fileID: 5501012426218600546, guid: 096fa3a5cb65ef849b203c56cb11866d, type: 3}
   powerupChance: 100
   powerup: {fileID: 5501012426218600545, guid: 096fa3a5cb65ef849b203c56cb11866d, type: 3}
+  playerKill: 0
+--- !u!114 &-7767835523593317323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338659166229634009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
