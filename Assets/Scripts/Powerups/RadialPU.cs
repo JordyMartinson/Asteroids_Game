@@ -14,6 +14,7 @@ public class RadialPU : Powerup
 
     IEnumerator Pickup (Collider2D player) {
         Player playerScript = player.GetComponent<Player>();
+
         playerScript.numBullets = radial;
 
         GetComponent<SpriteRenderer>().enabled = false;

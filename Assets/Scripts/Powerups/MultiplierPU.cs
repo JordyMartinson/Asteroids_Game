@@ -16,7 +16,9 @@ public class MultiplierPU : Powerup
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
 
+        powerupActive = true;
         yield return new WaitForSeconds(effectDuration);
+        powerupActive = false;
 
         FindObjectOfType<GameManager>().scoreMult /= 2;
 

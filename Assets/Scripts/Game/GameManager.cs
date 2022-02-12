@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
     public int total;
     public static bool paused;
     public static bool isGameOver;
+    
+    public float startTime;
+    public float t;
+    public static bool firedShot;
 
     public void Awake() {
         Time.timeScale = 1f;
@@ -26,9 +30,16 @@ public class GameManager : MonoBehaviour
         scoreMult = 25;
         total = 0;
         lives = 3;
+        startTime = Time.time;
+        firedShot = false;
     }
 
     public void Update() {
+        t = Time.time - startTime;
+        if (t >= 10f) {
+            AchievementManager.triggers[3] = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver) {
             if (paused) {
                 PauseUnpause(1f);
@@ -68,7 +79,7 @@ public class GameManager : MonoBehaviour
         this.explosion.transform.position = this.player.transform.position;
         this.explosion.Play();
 
-        livesChange(false);
+        LivesChange(false);
 
         if (this.lives <= 0) {
             GameOver();
@@ -90,13 +101,18 @@ public class GameManager : MonoBehaviour
     }
 
     private void GameOver() {
+
+        if(total > PlayerPrefs.GetInt("highScore")) {
+            PlayerPrefs.SetInt("highScore", total);
+        }
+        PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)t));
         isGameOver = true;
         livesText.enabled = false;
         scoreText.enabled = false;
-        gameOver.Show(score);
+        gameOver.Show(total);
     }
 
-    public void livesChange(bool change) {
+    public void LivesChange(bool change) {
         if (change) {
             this.lives++;
         } else {

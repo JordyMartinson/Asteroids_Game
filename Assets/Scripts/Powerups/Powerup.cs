@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
-    public static float stayDuration = 5f;
+    public static float stayDuration = 7f;
     public float fadeStart = stayDuration * 0.8f;
-    public float effectDuration = 5f;
+    public static float effectDuration = 5f;
     public float alphaVal = 0f;
     public bool powerupActive = false;
 

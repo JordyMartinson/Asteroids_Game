@@ -16,7 +16,7 @@ public class Asteroid : MonoBehaviour
 
     private SpriteRenderer sr;
     private Rigidbody2D rb2D;
-    public Powerup powerup;
+    // public Powerup powerup;
 
     public bool playerKill = false;
 

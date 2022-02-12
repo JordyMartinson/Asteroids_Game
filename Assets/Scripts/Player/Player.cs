@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Rigidbody2D rb2D;
+    public Rigidbody2D rigidBody;
     public Bullet bulletPrefab;
 
     public float moveForce = 1.5f;
@@ -14,10 +14,9 @@ public class Player : MonoBehaviour
     private float turn;
 
     private void Awake() {
-        rb2D = GetComponent<Rigidbody2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     private void Update() {
         forward = Input.GetKey(KeyCode.W);
         if (Input.GetKey(KeyCode.A)) {
@@ -28,7 +27,7 @@ public class Player : MonoBehaviour
         } else {
             turn = 0.0f;
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) & !GameManager.paused) {
             ShootBullets();
         }
@@ -36,11 +35,11 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate() {
         if (forward) {
-            rb2D.AddForce(this.transform.up * this.moveForce);
+            rigidBody.AddForce(this.transform.up * this.moveForce);
         }
 
         if (turn != 0.0f) {
-            rb2D.AddTorque(turn * this.turnForce);
+            rigidBody.AddTorque(turn * this.turnForce);
         }
     }
 
@@ -57,12 +56,15 @@ public class Player : MonoBehaviour
             rotation *= Quaternion.Euler(0, 0, angleChange);
             fireAngle = Quaternion.Euler(0, 0, angleChange) * fireAngle;
         }
+        Debug.Log(PlayerPrefs.GetInt("bulletsFired"));
+        PlayerPrefs.SetInt("bulletsFired", (PlayerPrefs.GetInt("bulletsFired") + numBullets));
+        Debug.Log(PlayerPrefs.GetInt("bulletsFired"));
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
         if (collision.gameObject.tag == "Asteroid") {
-            rb2D.velocity = Vector3.zero;
-            rb2D.angularVelocity = 0.0f;
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = 0.0f;
             this.gameObject.SetActive(false);
 
             FindObjectOfType<GameManager>().PlayerDied();

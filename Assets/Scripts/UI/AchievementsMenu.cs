@@ -16,7 +16,7 @@ public class AchievementsMenu : AchievementsSuper
             newPanel.rt.pivot = new Vector2(0.5f, 0.5f);
             newPanel.rt.sizeDelta = new Vector2(600, 100);
             newPanel.title.GetComponent<Text>().text = titles[i];
-            Vector3 newVector = new Vector3(0, (i * achOffset), 0);
+            Vector3 newVector = new Vector3(350, (i * achOffset), 0);
             newPanel.rt.anchoredPosition = newVector;
 
             if ((PlayerPrefs.GetInt(codes[i]) == 1? true:false)) {

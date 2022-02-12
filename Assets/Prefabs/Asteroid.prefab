@@ -146,7 +146,6 @@ MonoBehaviour:
   - {fileID: 6782652233353362640, guid: a4298877e711a504d8c4bffec933cf4c, type: 3}
   - {fileID: 5501012426218600546, guid: 096fa3a5cb65ef849b203c56cb11866d, type: 3}
   powerupChance: 100
-  powerup: {fileID: 5501012426218600545, guid: 096fa3a5cb65ef849b203c56cb11866d, type: 3}
   playerKill: 0
 --- !u!114 &-7767835523593317323
 MonoBehaviour:
