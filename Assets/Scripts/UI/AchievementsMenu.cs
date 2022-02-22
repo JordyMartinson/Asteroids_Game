@@ -8,6 +8,11 @@ public class AchievementsMenu : AchievementsSuper
     public int achOffset = -110;
     public Vector3 vector = new Vector3(0, -100, 0);
 
+    IEnumerator Start() {
+        yield return new WaitForSeconds(0.1f);
+        SetAchieved();
+    }
+
     public void SetAchieved() {
         for (int i = 1; i < (codes.Length); i++) {
             AchPanel newPanel = Instantiate(achPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("AchScrollContent").transform);
@@ -26,7 +31,6 @@ public class AchievementsMenu : AchievementsSuper
                 newPanel.desc.GetComponent<Text>().text = descriptions[0];
                 newPanel.image.GetComponent<RawImage>().texture = textures[0];
             }
-            Time.timeScale = 0f;
         }
     }
 }

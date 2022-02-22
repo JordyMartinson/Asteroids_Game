@@ -49,16 +49,12 @@ public class Player : MonoBehaviour
         rotation *= Quaternion.Euler(0, 0, 90);
 
         for (int i = 0; i < numBullets; i++) {
-            Bullet bullet = Instantiate(this.bulletPrefab,
-                this.transform.position, rotation);
-
+            Bullet bullet = Instantiate(this.bulletPrefab, this.transform.position, rotation);
             bullet.Shoot(fireAngle);
             rotation *= Quaternion.Euler(0, 0, angleChange);
             fireAngle = Quaternion.Euler(0, 0, angleChange) * fireAngle;
         }
-        Debug.Log(PlayerPrefs.GetInt("bulletsFired"));
         PlayerPrefs.SetInt("bulletsFired", (PlayerPrefs.GetInt("bulletsFired") + numBullets));
-        Debug.Log(PlayerPrefs.GetInt("bulletsFired"));
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
@@ -66,7 +62,6 @@ public class Player : MonoBehaviour
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = 0.0f;
             this.gameObject.SetActive(false);
-
             FindObjectOfType<GameManager>().PlayerDied();
         }
     }

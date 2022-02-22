@@ -19,8 +19,12 @@ public class StatsMenu : MonoBehaviour
 
     private int bulletsFired;
 
-    public void SetStats() {
+    IEnumerator Start() {
+        yield return new WaitForSeconds(0.1f);
+        SetStats();
+    }
 
+    public void SetStats() {
         timeMins = PlayerPrefs.GetInt("timePlayed") / minuteDiv;
         timeSecs = PlayerPrefs.GetInt("timePlayed") % minuteDiv;
         highScore = PlayerPrefs.GetInt("highScore");
