@@ -4,9 +4,15 @@ using UnityEngine.UI;
 
 public class EndMenu : MonoBehaviour
 {
+    public GameManager gameManager;
+
     public Text scoreText;
     public Text headerText;
     public Text subText;
+
+    public void Awake() {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     public void Show(int total) {
         gameObject.SetActive(true);
@@ -27,13 +33,19 @@ public class EndMenu : MonoBehaviour
     }
 
     public void Restart() {
-        PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
+        // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
         // PlayerStatsManager.AddTimeToTotal();
+        PlayerData pD = new PlayerData(gameManager.getPlayer());
+        SaveManager.UpdateSave(pD);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitGame() {
-        PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
+        // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
+        // PlayerData pD = new PlayerData(gameManager.getPlayerData());
+        PlayerData pD = gameManager.getPlayerData();
+        Debug.Log("pd " + pD.bulletsFired);
+        SaveManager.UpdateSave(gameManager.getPlayerData());
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }

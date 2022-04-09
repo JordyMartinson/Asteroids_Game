@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStatsManager : MonoBehaviour
 {
-    public void AddTimeToTotal() {
-        PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
-    }
+    // public void AddTimeToTotal() {
+    //     PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
+    // }
 }

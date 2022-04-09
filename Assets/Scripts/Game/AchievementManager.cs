@@ -16,7 +16,7 @@ public class AchievementManager : AchievementsSuper
     public static bool[] triggers = new bool[numAchs];
     public static int ach01Count;
     public int ach01TriggerInt = 1000;
-    public bool[] got = new bool[numAchs];//
+    public bool[] got = new bool[numAchs];
 
     public void Awake() {
         ach01Count = 0;

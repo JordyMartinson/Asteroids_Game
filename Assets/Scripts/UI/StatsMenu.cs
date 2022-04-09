@@ -1,3 +1,4 @@
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,16 +20,28 @@ public class StatsMenu : MonoBehaviour
 
     private int bulletsFired;
 
+    private PlayerData data;
+
     IEnumerator Start() {
+        // Debug.Log("started");
         yield return new WaitForSeconds(0.1f);
+        if(SaveManager.LoadPlayer() != null) {
+            data = SaveManager.LoadPlayer();
+        } else {
+            Debug.Log("prompt new save");
+        }
+        // Debug.Log(data.name);
+        // Debug.Log(data.highScore);
         SetStats();
     }
 
+    
+
     public void SetStats() {
-        timeMins = PlayerPrefs.GetInt("timePlayed") / minuteDiv;
-        timeSecs = PlayerPrefs.GetInt("timePlayed") % minuteDiv;
-        highScore = PlayerPrefs.GetInt("highScore");
-        bulletsFired = PlayerPrefs.GetInt("bulletsFired");
+        timeMins = data.timePlayed / minuteDiv;
+        timeSecs = data.timePlayed % minuteDiv;
+        highScore = data.highScore;
+        bulletsFired = data.bulletsFired;
 
         highScoreText.text = string.Format("High Score: {0} points", highScore);
 
@@ -48,6 +61,6 @@ public class StatsMenu : MonoBehaviour
                 timeMins, minsText, timeSecs, secsText);
         }
 
-        bulletsFiredText.text = string.Format("Bullets Fired: {0}", PlayerPrefs.GetInt("bulletsFired"));
+        bulletsFiredText.text = string.Format("Bullets Fired: {0}", bulletsFired);
     }
 }

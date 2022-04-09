@@ -5,7 +5,7 @@ public class Spawner : MonoBehaviour
     public Asteroid asteroidPrefab;
 
     public float spawnRate = 2.0f;
-    public float spawnDistance = 30.0f;
+    public float spawnDistance = 50.0f;
     public float trajVariance = 15.0f;
     public int spawnAmount = 1;
 

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public Player player;
+    public PlayerData playerData;
     public ParticleSystem explosion;
     public Text scoreText;
     public Text livesText;
@@ -14,12 +15,10 @@ public class GameManager : MonoBehaviour
     public float invulnTime = 2.0f;
     public int score;
     public int scoreMult;
-    public int total;
     public static bool paused;
     public static bool isGameOver;
     
     public float startTime;
-    public float t;
     public static bool firedShot;
 
     public void Awake() {
@@ -28,15 +27,16 @@ public class GameManager : MonoBehaviour
         paused = false;
         score = 0;
         scoreMult = 25;
-        total = 0;
         lives = 3;
         startTime = Time.time;
         firedShot = false;
+        playerData = SaveManager.LoadPlayer();
+        playerData.reset();
     }
 
     public void Update() {
-        t = Time.time - startTime;
-        if (t >= 10f) {
+        playerData.curTime = Time.time - startTime;
+        if (playerData.curTime >= 10f) {
             AchievementManager.triggers[3] = true;
         }
 
@@ -70,8 +70,9 @@ public class GameManager : MonoBehaviour
         } else {
             score = (1 * scoreMult);
         }
-        total += score;
-        scoreText.text = "Score : " + total.ToString();
+        playerData.curScore += score;
+        Debug.Log(playerData.curScore);
+        scoreText.text = "Score : " + playerData.curScore.ToString();
         AchievementManager.ach01Count += score;
     }
 
@@ -102,14 +103,15 @@ public class GameManager : MonoBehaviour
 
     private void GameOver() {
 
-        if(total > PlayerPrefs.GetInt("highScore")) {
-            PlayerPrefs.SetInt("highScore", total);
-        }
-        PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)t));
+        // if(total > PlayerPrefs.GetInt("highScore")) {
+        //     PlayerPrefs.SetInt("highScore", total);
+        // }
+        // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)player.curTime));
+        SaveManager.UpdateSave(this.playerData);
         isGameOver = true;
         livesText.enabled = false;
         scoreText.enabled = false;
-        gameOver.Show(total);
+        gameOver.Show(playerData.curScore);
     }
 
     public void LivesChange(bool change) {
@@ -119,5 +121,25 @@ public class GameManager : MonoBehaviour
             this.lives--;
         }
         livesText.text = "Lives  : " + lives.ToString();
+    }
+
+    // public void UpdateSave() {
+    //     PlayerData old = SaveManager.LoadPlayer();
+    //     if(player.curScore > old.highScore) {
+    //         player.highScore = player.curScore; //check
+    //     }
+    //     player.timePlayed = old.timePlayed + (int)player.curTime;
+    //     player.bulletsFired += old.bulletsFired;
+    //     SaveManager.SavePlayer(this.player);
+    // }
+
+    public PlayerData getPlayerData() {
+        playerData.bulletsFired = player.bulletsFired;
+        return this.playerData;
+    }
+
+    public Player getPlayer() {
+        // Debug.Log(player.playerName);
+        return this.player;
     }
 }

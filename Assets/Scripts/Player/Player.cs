@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public string playerName;
+    public int curScore;
+    public float curTime; 
+    public int highScore;
+    public int timePlayed;
+    public int bulletsFired;
+
     public Rigidbody2D rigidBody;
     public Bullet bulletPrefab;
 
@@ -13,8 +20,26 @@ public class Player : MonoBehaviour
     private bool forward;
     private float turn;
 
+    private Camera mainCam;
+    private Vector2 screenBounds;
+    private PlayerData playerData;
+    private SpriteRenderer spriteRenderer;
+    private Sprite[] sprites;
+
+
+
     private void Awake() {
         rigidBody = GetComponent<Rigidbody2D>();
+        bulletsFired = 0;
+        curScore = 0;
+        curTime = 0;
+        // mainCam = gameObject.GetComponent<Camera>();
+        mainCam = Camera.main;
+
+        playerData = SaveManager.LoadPlayer();
+        sprites = Resources.LoadAll<Sprite>("Sprites");
+        spriteRenderer = GameObject.Find("Player").GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprites[playerData.getSpriteNum()];
     }
 
     private void Update() {
@@ -33,6 +58,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void LateUpdate() {
+        screenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCam.transform.position.z));
+
+        if(Mathf.Abs(transform.position.x) > screenBounds.x) {
+            float xPos = Mathf.Clamp(transform.position.x, screenBounds.x, -(screenBounds.x));
+            transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
+        }
+
+        if(Mathf.Abs(transform.position.y) > screenBounds.y) {
+            float yPos = Mathf.Clamp(transform.position.y, screenBounds.y, -(screenBounds.y));
+            transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
+        }
+        
+    }
+
     private void FixedUpdate() {
         if (forward) {
             rigidBody.AddForce(this.transform.up * this.moveForce);
@@ -46,7 +86,7 @@ public class Player : MonoBehaviour
     private void ShootBullets() {
         var fireAngle = this.transform.up;
         var rotation = this.transform.rotation;
-        rotation *= Quaternion.Euler(0, 0, 90);
+        rotation *= Quaternion.Euler(0, 0, 0);
 
         for (int i = 0; i < numBullets; i++) {
             Bullet bullet = Instantiate(this.bulletPrefab, this.transform.position, rotation);
@@ -54,7 +94,9 @@ public class Player : MonoBehaviour
             rotation *= Quaternion.Euler(0, 0, angleChange);
             fireAngle = Quaternion.Euler(0, 0, angleChange) * fireAngle;
         }
-        PlayerPrefs.SetInt("bulletsFired", (PlayerPrefs.GetInt("bulletsFired") + numBullets));
+        // Debug.Log(playerData.bulletsFired);
+        bulletsFired += numBullets;
+        // Debug.Log(playerData.bulletsFired);
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
