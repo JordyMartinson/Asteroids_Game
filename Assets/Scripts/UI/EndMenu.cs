@@ -44,7 +44,7 @@ public class EndMenu : MonoBehaviour
         // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
         // PlayerData pD = new PlayerData(gameManager.getPlayerData());
         PlayerData pD = gameManager.getPlayerData();
-        Debug.Log("pd " + pD.bulletsFired);
+        // Debug.Log("pd " + pD.getSpriteNum());
         SaveManager.UpdateSave(gameManager.getPlayerData());
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);

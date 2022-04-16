@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
@@ -36,10 +37,11 @@ public class Player : MonoBehaviour
         // mainCam = gameObject.GetComponent<Camera>();
         mainCam = Camera.main;
 
-        playerData = SaveManager.LoadPlayer();
+        playerData = SaveManager.currentPlayer; //change to current player
         sprites = Resources.LoadAll<Sprite>("Sprites");
         spriteRenderer = GameObject.Find("Player").GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[playerData.getSpriteNum()];
+
     }
 
     private void Update() {

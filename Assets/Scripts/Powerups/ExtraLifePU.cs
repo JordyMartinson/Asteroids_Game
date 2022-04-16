@@ -11,7 +11,10 @@ public class ExtraLifePU : Powerup
     }
 
     private void Pickup (Collider2D player) {
+        audioSource.PlayOneShot(clip, volume);
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
         FindObjectOfType<GameManager>().LivesChange(true);
-        Destroy(gameObject);
+        Destroy(gameObject, 1f);
     }
 }

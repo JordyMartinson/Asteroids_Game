@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     public float startTime;
     public static bool firedShot;
 
+    private AudioSource audioSource;
+    public AudioClip death;
+    public AudioClip hit;
+    public float volume = 1f;
+
     public void Awake() {
         Time.timeScale = 1f;
         isGameOver = false;
@@ -30,8 +35,9 @@ public class GameManager : MonoBehaviour
         lives = 3;
         startTime = Time.time;
         firedShot = false;
-        playerData = SaveManager.LoadPlayer();
+        playerData = SaveManager.currentPlayer;
         playerData.reset();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Update() {
@@ -62,6 +68,7 @@ public class GameManager : MonoBehaviour
     public void AsteroidDestroyed(Asteroid asteroid) {
         this.explosion.transform.position = asteroid.transform.position;
         this.explosion.Play();
+        audioSource.PlayOneShot(hit, volume);
 
         if (asteroid.size < 2.5f) {
             score = (4 * scoreMult);
@@ -71,7 +78,7 @@ public class GameManager : MonoBehaviour
             score = (1 * scoreMult);
         }
         playerData.curScore += score;
-        Debug.Log(playerData.curScore);
+        // Debug.Log(playerData.curScore);
         scoreText.text = "Score : " + playerData.curScore.ToString();
         AchievementManager.ach01Count += score;
     }
@@ -79,6 +86,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDied() {
         this.explosion.transform.position = this.player.transform.position;
         this.explosion.Play();
+        audioSource.PlayOneShot(death, volume);
 
         LivesChange(false);
 
@@ -135,6 +143,8 @@ public class GameManager : MonoBehaviour
 
     public PlayerData getPlayerData() {
         playerData.bulletsFired = player.bulletsFired;
+        // playerData.setSpriteNum(3);
+        // Debug.Log(playerData.getSpriteNum());
         return this.playerData;
     }
 

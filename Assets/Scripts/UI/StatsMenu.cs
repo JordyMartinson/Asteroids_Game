@@ -20,16 +20,16 @@ public class StatsMenu : MonoBehaviour
 
     private int bulletsFired;
 
-    private PlayerData data;
+    // private PlayerData data;
 
     IEnumerator Start() {
         // Debug.Log("started");
         yield return new WaitForSeconds(0.1f);
-        if(SaveManager.LoadPlayer() != null) {
-            data = SaveManager.LoadPlayer();
-        } else {
-            Debug.Log("prompt new save");
-        }
+        // if(SaveManager.currentPlayer != null) { //change to current player
+        //     data = SaveManager.LoadPlayer(0); //change to current player
+        // } else {
+        //     Debug.Log("prompt new save");
+        // }
         // Debug.Log(data.name);
         // Debug.Log(data.highScore);
         SetStats();
@@ -38,10 +38,10 @@ public class StatsMenu : MonoBehaviour
     
 
     public void SetStats() {
-        timeMins = data.timePlayed / minuteDiv;
-        timeSecs = data.timePlayed % minuteDiv;
-        highScore = data.highScore;
-        bulletsFired = data.bulletsFired;
+        timeMins = SaveManager.currentPlayer.timePlayed / minuteDiv;
+        timeSecs = SaveManager.currentPlayer.timePlayed % minuteDiv;
+        highScore = SaveManager.currentPlayer.highScore;
+        bulletsFired = SaveManager.currentPlayer.bulletsFired;
 
         highScoreText.text = string.Format("High Score: {0} points", highScore);
 

@@ -9,11 +9,15 @@ public class Powerup : MonoBehaviour
     public static float effectDuration = 5f;
     public float alphaVal = 0f;
     public bool powerupActive = false;
+    public AudioSource audioSource;
+    public AudioClip clip;
+    public float volume = 1f;
 
     SpriteRenderer sr;
 
     public void Start() {
         sr = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
         StartCoroutine(Fade(alphaVal, fadeStart));
     }
 

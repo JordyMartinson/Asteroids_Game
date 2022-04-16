@@ -1,79 +1,57 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections; 
+using System.Collections.Generic;
 
 public static class SaveManager
 {
-    private static string pathBase = Application.persistentDataPath; // + "/player.save";
+    private static string pathBase = Application.persistentDataPath;
     private static string path;
-    private static PlayerData[] profiles;
-
-    // public static void SavePlayer(Player player) {
-    //     path = pathBase + "/" + player.playerName + ".save";
-    //     BinaryFormatter formatter = new BinaryFormatter();
-    //     FileStream stream = new FileStream(path, FileMode.Create);
-    //     PlayerData data = new PlayerData(player);
-    //     formatter.Serialize(stream, data);
-    //     stream.Close();
-    // }
+    public static ArrayList profiles;
+    public static PlayerData currentPlayer;
 
     public static void SavePlayer(PlayerData playerData) {
-        // Debug.Log(player.name);
         path = pathBase + "/" + playerData.name + ".save";
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Create);
-        // PlayerData data = new PlayerData(player);
         formatter.Serialize(stream, playerData);
         stream.Close();
-        // Debug.Log(LoadPlayer().highScore);
+        currentPlayer = playerData;
     }
 
-    // public static void UpdateSave(Player player) {
-    //     Debug.Log("Name: " + player.name);
-    //     PlayerData old = SaveManager.LoadPlayer();
-    //     if(player.curScore > old.highScore) {
-    //         Debug.Log("CurScore: " + player.curScore);
-    //         Debug.Log("HighScore: " + old.highScore);
-    //         player.highScore = player.curScore;
-    //     } else {
-    //         player.highScore = old.highScore;
-    //     }
-    //     player.timePlayed = old.timePlayed + (int)player.curTime;
-    //     player.bulletsFired += old.bulletsFired;
-    //     SaveManager.SavePlayer(player);
-    // }
-
     public static void UpdateSave(PlayerData playerData) {
-        // Debug.Log("Name: " + playerData.name);
-        PlayerData old = SaveManager.LoadPlayer();
-        // Debug.Log("CurScore old: " + old.curScore);
-        // Debug.Log("CurScore new: " + playerData.curScore);
+        PlayerData old = SaveManager.LoadPlayer(playerData.getPlayerID());
         if(playerData.curScore > old.highScore) {
-            // Debug.Log("CurScore: " + playerData.curScore);
-            // Debug.Log("HighScore old: " + playerData.highScore);
             playerData.highScore = playerData.curScore;
-            // Debug.Log("HighScore new: " + playerData.highScore);
         } else {
             playerData.highScore = old.highScore;
         }
-        // Debug.Log("HighScore new: " + playerData.highScore);
         playerData.timePlayed = old.timePlayed + (int)playerData.curTime;
-        Debug.Log("bullets " + playerData.bulletsFired);
         playerData.bulletsFired += old.bulletsFired;
-        SaveManager.SavePlayer(playerData);
+        SavePlayer(playerData);
     }
 
-    public static PlayerData LoadPlayer() {
-        // path += ("/" + playerName + ".save");
-        path = pathBase + "/" + "Default" + ".save";
+    public static PlayerData LoadPlayer(int id) {
+        PlayerData temp = null;
+        foreach(PlayerData p in profiles) {
+            if(p.getPlayerID() == id) {
+                temp = p;
+            }
+        }
+        string name = temp.name;
+        // Debug.Log(name);
+        path = pathBase + ("/" + name + ".save");
         if (File.Exists(path)) {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             PlayerData data = formatter.Deserialize(stream) as PlayerData;
             stream.Close();
+            data.playerID = id;
             return data;            
         } else {
-            // Debug.LogError("Save file not found, creating default");
+            Debug.LogError("Save file not found, creating default");
+            return null;
             Player defPlayer = new Player();
             defPlayer.playerName = "Default";
             PlayerData defPlayerData = new PlayerData(defPlayer);
@@ -87,36 +65,28 @@ public static class SaveManager
         }
     }
 
-    // public static PlayerData LoadPlayer(string name) {
-    //     path += ("/" + name + ".save");
-    //     // path = pathBase + "/" + "Default" + ".save";
-    //     if (File.Exists(path)) {
-    //         BinaryFormatter formatter = new BinaryFormatter();
-    //         FileStream stream = new FileStream(path, FileMode.Open);
-    //         PlayerData data = formatter.Deserialize(stream) as PlayerData;
-    //         stream.Close();
-    //         return data;            
-    //     } else {
-    //         Debug.LogError("Save file not found, creating default");
-    //         return null;
-    //         // Player defPlayer = new Player();
-    //         // defPlayer.playerName = "Default";
-    //         // PlayerData defPlayerData = new PlayerData(defPlayer);
-    //         // SavePlayer(defPlayerData);
+    public static ArrayList loadProfiles() {
+        int i = 0;
+        BinaryFormatter formatter1 = new BinaryFormatter();
 
-    //         // BinaryFormatter formatter = new BinaryFormatter();
-    //         // FileStream stream = new FileStream(path, FileMode.Open);
-    //         // PlayerData defData = formatter.Deserialize(stream) as PlayerData;
-    //         // stream.Close();
-    //         // return defData;
-    //     }
-    // }
-
-    public static void Start() {
-        DirectoryInfo dir = new DirectoryInfo(pathBase);
-        FileInfo[] info = dir.GetFiles("*.save*");
-        foreach (FileInfo f in info) {
-            Debug.Log(f);
+        if(Directory.GetFiles(pathBase, "*.save").Length == 0) {
+            Player newPlayer = new Player();
+            newPlayer.playerName = "Default";
+            PlayerData pd = new PlayerData(newPlayer);
+            pd.setMusicVol(1f);
+            Debug.Log(pd.getMusicVol());
+            SavePlayer(pd);
         }
+        ArrayList profiles = new ArrayList();
+        foreach (string f in Directory.EnumerateFiles(pathBase, "*.save")) {
+            FileStream stream1 = new FileStream(f, FileMode.Open);
+            PlayerData data1 = formatter1.Deserialize(stream1) as PlayerData;
+            data1.playerID = i;
+            // Debug.Log(data1.name + " " + data1.playerID);
+            stream1.Close();
+            profiles.Add(data1);
+            i++;
+        }
+        return profiles;
     }
 }

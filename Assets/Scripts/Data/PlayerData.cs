@@ -12,6 +12,10 @@ public class PlayerData
     public int spriteNum;
     public int curScore;
     public float curTime;
+    public int playerID;
+    public float musicVol = 1f;
+    public float tempMusicVol = 1f;
+    public bool muted = false;
 
     public PlayerData(Player player) {
         this.name = player.playerName;
@@ -20,6 +24,7 @@ public class PlayerData
         this.bulletsFired = player.bulletsFired;
         this.curScore = player.curScore;
         this.curTime = player.curTime;
+        // this.playerID = SaveManager.getPlayerID();
         // Debug.Log(this.curScore);
     }
 
@@ -32,7 +37,45 @@ public class PlayerData
     }
 
     public void reset() {
+        highScore = 0;
+        timePlayed = 0;
+        bulletsFired = 0;
         curScore = 0;
         curTime = 0;
+    }
+
+    public void resetSprite() {
+        spriteNum = 0;
+    }
+
+    public int getPlayerID() {
+        return this.playerID;
+    }
+
+    public void setMusicVol(float vol) {
+        this.musicVol = vol;
+    }
+
+    public void setTempMusicVol(float vol) {
+        // Debug.Log("before " + this.tempMusicVol);
+        this.tempMusicVol = vol;
+        // Debug.Log("after " + this.tempMusicVol);
+    }
+
+    public float getMusicVol() {
+        return this.musicVol;
+    }
+
+    public float getTempMusicVol() {
+        // Debug.Log("get " + this.tempMusicVol);
+        return this.tempMusicVol;
+    }
+
+    public bool isMuted() {
+        return this.muted;
+    }
+
+    public void muteUnmute(bool muted) {
+        this.muted = muted;
     }
 }

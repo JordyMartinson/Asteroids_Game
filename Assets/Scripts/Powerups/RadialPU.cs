@@ -13,6 +13,7 @@ public class RadialPU : Powerup
     }
 
     IEnumerator Pickup (Collider2D player) {
+        audioSource.PlayOneShot(clip, volume);
         Player playerScript = player.GetComponent<Player>();
 
         playerScript.numBullets = radial;

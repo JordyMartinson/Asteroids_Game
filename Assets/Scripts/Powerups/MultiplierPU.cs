@@ -11,6 +11,7 @@ public class MultiplierPU : Powerup
     }
 
     IEnumerator Pickup (Collider2D player) {
+        audioSource.PlayOneShot(clip, volume);
         FindObjectOfType<GameManager>().scoreMult *= 2;
 
         GetComponent<SpriteRenderer>().enabled = false;
