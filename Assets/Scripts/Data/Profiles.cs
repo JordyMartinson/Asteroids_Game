@@ -37,19 +37,11 @@ public class Profiles : MonoBehaviour
         pd.reset();
         pd.resetSprite();
         pd.setMusicVol(1f);
-<<<<<<< Updated upstream
-        // Debug.Log("pdname " + pd.name);
-=======
         pd.setSFXVol(1f);
->>>>>>> Stashed changes
         SaveManager.SavePlayer(pd);
         setPNameText(pd);
         setSprite(pd.getPlayerID());
-<<<<<<< Updated upstream
-        settingsManager.setVolume(SaveManager.currentPlayer.getMusicVol());
-=======
         setNewVols();
->>>>>>> Stashed changes
         SaveManager.profiles = SaveManager.loadProfiles();
     }
 
@@ -70,15 +62,7 @@ public class Profiles : MonoBehaviour
         }
         setPNameText(SaveManager.currentPlayer);
         setSprite(SaveManager.currentPlayer.getSpriteNum());
-<<<<<<< Updated upstream
-        if(SaveManager.currentPlayer.isMuted()) {
-            settingsManager.setVolume(SaveManager.currentPlayer.getMusicVol());
-        } else {
-            settingsManager.setVolume(SaveManager.currentPlayer.getTempMusicVol());
-        }
-=======
         setNewVols();
->>>>>>> Stashed changes
     }
 
     public void getPreviousPlayer() {
@@ -93,19 +77,11 @@ public class Profiles : MonoBehaviour
         }
         setPNameText(SaveManager.currentPlayer);
         setSprite(SaveManager.currentPlayer.getSpriteNum());
-<<<<<<< Updated upstream
-        if(SaveManager.currentPlayer.isMuted()) {
-            settingsManager.setVolume(SaveManager.currentPlayer.getMusicVol());
-        } else {
-            settingsManager.setVolume(SaveManager.currentPlayer.getTempMusicVol());
-        }
-=======
         setNewVols();
     }
 
     public void setNewVols() {
         settingsManager.setMusicVolume(SaveManager.currentPlayer.getMusicVol());
         settingsManager.setSFXVolume(SaveManager.currentPlayer.getSFXVol());
->>>>>>> Stashed changes
     }
 }

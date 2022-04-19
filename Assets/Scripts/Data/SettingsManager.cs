@@ -7,33 +7,18 @@ public class SettingsManager : MonoBehaviour
     public AudioMixer audioMixer;
     public Slider musicSlider;
     public Toggle musicToggle;
+    public Slider sfxSlider;
+    public Toggle sfxToggle;
 
     public void Start() {
-        if(SaveManager.currentPlayer.getMusicVol() != null && !SaveManager.currentPlayer.isMuted()) {
-            setVolume(SaveManager.currentPlayer.getMusicVol());
-        } else if(SaveManager.currentPlayer.getMusicVol() != null && SaveManager.currentPlayer.isMuted()) {
-            setVolume(SaveManager.currentPlayer.getTempMusicVol());
+        if(SaveManager.currentPlayer.getMusicVol() != null && !SaveManager.currentPlayer.isMusicMuted()) {
+            setMusicVolume(SaveManager.currentPlayer.getMusicVol());
+        } else if(SaveManager.currentPlayer.getMusicVol() != null && SaveManager.currentPlayer.isMusicMuted()) {
+            setMusicVolume(SaveManager.currentPlayer.getTempMusicVol());
         } else {
-            setVolume(1f);
+            setMusicVolume(1f);
         }
-    }
 
-    public void setVolume(float volume) {
-        musicToggle.isOn = SaveManager.currentPlayer.isMuted();
-        musicSlider.interactable = !SaveManager.currentPlayer.isMuted();
-
-        // Debug.Log(SaveManager.currentPlayer.getMusicVol());
-        // Debug.Log(SaveManager.currentPlayer.getTempMusicVol());
-
-
-<<<<<<< Updated upstream
-
-        // if(SaveManager.currentPlayer.isMuted()) {
-        //     musicSlider.value = SaveManager.currentPlayer.getTempMusicVol();
-        // } else {
-        //     musicSlider.value = SaveManager.currentPlayer.getMusicVol();
-        // }
-=======
         if(SaveManager.currentPlayer.getSFXVol() != null && !SaveManager.currentPlayer.isSFXMuted()) {
             setSFXVolume(SaveManager.currentPlayer.getSFXVol());
         } else if(SaveManager.currentPlayer.getSFXVol() != null && SaveManager.currentPlayer.isSFXMuted()) {
@@ -42,10 +27,10 @@ public class SettingsManager : MonoBehaviour
             setSFXVolume(1f);
         }
     }
->>>>>>> Stashed changes
 
-        // musicSlider.value = SaveManager.currentPlayer.getMusicVol();
-        // musicSlider.value = volume;
+    public void setMusicVolume(float volume) {
+        musicToggle.isOn = SaveManager.currentPlayer.isMusicMuted();
+        musicSlider.interactable = !SaveManager.currentPlayer.isMusicMuted();
         audioMixer.SetFloat("MixerVolume", Mathf.Log10(volume) * 20);
         SaveManager.currentPlayer.setMusicVol(volume);
         SaveManager.SavePlayer(SaveManager.currentPlayer);
@@ -53,11 +38,6 @@ public class SettingsManager : MonoBehaviour
         // Debug.Log(SaveManager.currentPlayer.getMusicVol() + " " + SaveManager.currentPlayer.getTempMusicVol());
     }
 
-<<<<<<< Updated upstream
-    public void muteUnmute(bool muted) {
-        // musicSlider.interactable = !muted;
-        SaveManager.currentPlayer.muteUnmute(muted);
-=======
     public void setSFXVolume(float volume) {
         sfxToggle.isOn = SaveManager.currentPlayer.isSFXMuted();
         sfxSlider.interactable = !SaveManager.currentPlayer.isSFXMuted();
@@ -70,7 +50,6 @@ public class SettingsManager : MonoBehaviour
 
     public void musicMuteUnmute(bool muted) {
         SaveManager.currentPlayer.musicMuteUnmute(muted);
->>>>>>> Stashed changes
         musicSlider.interactable = !muted;
         if(muted) {
             // Debug.Log(SaveManager.currentPlayer.getMusicVol());
@@ -82,19 +61,17 @@ public class SettingsManager : MonoBehaviour
                 SaveManager.currentPlayer.setTempMusicVol(SaveManager.currentPlayer.getMusicVol());
             }
             // Debug.Log(SaveManager.currentPlayer.getTempMusicVol());
-            setVolume(0.0001f);
+            setMusicVolume(0.0001f);
         } else {
             // Debug.Log("unmuted");
             Debug.Log("temp " + SaveManager.currentPlayer.getTempMusicVol());
             // SaveManager.currentPlayer.muteUnmute(muted);
             
-            setVolume(SaveManager.currentPlayer.getTempMusicVol());
+            setMusicVolume(SaveManager.currentPlayer.getTempMusicVol());
             
         }
         
     }
-<<<<<<< Updated upstream
-=======
 
     public void sfxMuteUnmute(bool muted) {
         SaveManager.currentPlayer.sfxMuteUnmute(muted);
@@ -108,5 +85,4 @@ public class SettingsManager : MonoBehaviour
             setSFXVolume(SaveManager.currentPlayer.getTempSFXVol());
         }
     }
->>>>>>> Stashed changes
 }

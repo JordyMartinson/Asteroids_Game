@@ -14,15 +14,12 @@ public class PlayerData
     public float curTime;
     public int playerID;
     public float musicVol = 1f;
+    public float sfxVol = 1f;
     public float tempMusicVol = 1f;
-<<<<<<< Updated upstream
-    public bool muted = false;
-=======
     public float tempSFXVol = 1f;
     public bool musicMuted = false;
     public bool sfxMuted = false;
     public bool[] codes;
->>>>>>> Stashed changes
 
     public PlayerData(Player player) {
         this.name = player.playerName;
@@ -78,11 +75,38 @@ public class PlayerData
         return this.tempMusicVol;
     }
 
-    public bool isMuted() {
-        return this.muted;
+    public bool isMusicMuted() {
+        return this.musicMuted;
     }
 
-    public void muteUnmute(bool muted) {
-        this.muted = muted;
+    public void musicMuteUnmute(bool muted) {
+        this.musicMuted = muted;
+    }
+
+    public void setSFXVol(float vol) {
+        this.sfxVol = vol;
+    }
+
+    public void setTempSFXVol(float vol) {
+        // Debug.Log("before " + this.tempMusicVol);
+        this.tempSFXVol = vol;
+        // Debug.Log("after " + this.tempMusicVol);
+    }
+
+    public float getSFXVol() {
+        return this.sfxVol;
+    }
+
+    public float getTempSFXVol() {
+        // Debug.Log("get " + this.tempMusicVol);
+        return this.tempSFXVol;
+    }
+
+    public bool isSFXMuted() {
+        return this.sfxMuted;
+    }
+
+    public void sfxMuteUnmute(bool muted) {
+        this.sfxMuted = muted;
     }
 }
