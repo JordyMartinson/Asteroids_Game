@@ -15,7 +15,14 @@ public class PlayerData
     public int playerID;
     public float musicVol = 1f;
     public float tempMusicVol = 1f;
+<<<<<<< Updated upstream
     public bool muted = false;
+=======
+    public float tempSFXVol = 1f;
+    public bool musicMuted = false;
+    public bool sfxMuted = false;
+    public bool[] codes;
+>>>>>>> Stashed changes
 
     public PlayerData(Player player) {
         this.name = player.playerName;

@@ -10,69 +10,50 @@ public class Profiles : MonoBehaviour
     private Sprite[] sprites;
     public SpriteRenderer spriteRenderer;
     private PlayerData data;
-    // private static idCount = 0;
-    // public PlayerData[] profiles;
     public SettingsManager settingsManager;
-
-
 
     public void Awake() {
         SaveManager.profiles = SaveManager.loadProfiles();
         if(SaveManager.currentPlayer == null) {
             SaveManager.currentPlayer = (PlayerData) SaveManager.profiles[0];
         }
-        // Debug.Log(SaveManager.profiles[0].name);
-        // profiles = SaveManager.profiles;
-        // Debug.Log(profiles[0].name);
-        // if(SaveManager.LoadPlayer(0) != null) {
         sprites = Resources.LoadAll<Sprite>("Sprites");
         spriteRenderer = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
 
         nameText.GetComponent<Text>().text = SaveManager.currentPlayer.name;
         spriteRenderer.sprite = sprites[SaveManager.currentPlayer.getSpriteNum()];
         settingsManager = FindObjectOfType<SettingsManager>();
-        // } else {
-        //     nameText.GetComponent<Text>().text = "CREATE NEW SAVE";
-        // }
     }
 
-    // IEnumerator Start() {
-    //     yield return new WaitForSeconds(0.1f);
-    //     // playerData = SaveManager.LoadPlayer();
-
-        
-    // }
 
     public void setPNameText(PlayerData pD) {
-        // PlayerData data = SaveManager.LoadPlayer(pD.getPlayerID());
-        // Debug.Log(data.name);
         nameText.GetComponent<Text>().text = pD.name;
     }
 
     public void newPlayer() {
         Player newPlayer = new Player();
         newPlayer.playerName = inField.text;
-        // Debug.Log("newplayer " + newPlayer.playerName);
         PlayerData pd = new PlayerData(newPlayer);
         pd.reset();
         pd.resetSprite();
         pd.setMusicVol(1f);
+<<<<<<< Updated upstream
         // Debug.Log("pdname " + pd.name);
+=======
+        pd.setSFXVol(1f);
+>>>>>>> Stashed changes
         SaveManager.SavePlayer(pd);
         setPNameText(pd);
-        // Debug.Log(pd.getPlayerID());
         setSprite(pd.getPlayerID());
+<<<<<<< Updated upstream
         settingsManager.setVolume(SaveManager.currentPlayer.getMusicVol());
+=======
+        setNewVols();
+>>>>>>> Stashed changes
         SaveManager.profiles = SaveManager.loadProfiles();
-        // SaveManager.currentPlayer = SaveManager.LoadPlayer()
     }
 
     public void setSprite(int spriteNum) {
-        // string name = profiles[id].name;
-        // Debug.Log(data.name);
-        // data = SaveManager.LoadPlayer(id);
-        // Debug.Log(data.name);
-        // Debug.Log(playerData.name);
         spriteRenderer.sprite = sprites[spriteNum];
     }
 
@@ -89,11 +70,15 @@ public class Profiles : MonoBehaviour
         }
         setPNameText(SaveManager.currentPlayer);
         setSprite(SaveManager.currentPlayer.getSpriteNum());
+<<<<<<< Updated upstream
         if(SaveManager.currentPlayer.isMuted()) {
             settingsManager.setVolume(SaveManager.currentPlayer.getMusicVol());
         } else {
             settingsManager.setVolume(SaveManager.currentPlayer.getTempMusicVol());
         }
+=======
+        setNewVols();
+>>>>>>> Stashed changes
     }
 
     public void getPreviousPlayer() {
@@ -108,10 +93,19 @@ public class Profiles : MonoBehaviour
         }
         setPNameText(SaveManager.currentPlayer);
         setSprite(SaveManager.currentPlayer.getSpriteNum());
+<<<<<<< Updated upstream
         if(SaveManager.currentPlayer.isMuted()) {
             settingsManager.setVolume(SaveManager.currentPlayer.getMusicVol());
         } else {
             settingsManager.setVolume(SaveManager.currentPlayer.getTempMusicVol());
         }
+=======
+        setNewVols();
+    }
+
+    public void setNewVols() {
+        settingsManager.setMusicVolume(SaveManager.currentPlayer.getMusicVol());
+        settingsManager.setSFXVolume(SaveManager.currentPlayer.getSFXVol());
+>>>>>>> Stashed changes
     }
 }
