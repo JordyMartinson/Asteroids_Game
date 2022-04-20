@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Powerup : MonoBehaviour
 {
@@ -12,12 +13,14 @@ public class Powerup : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip clip;
     public float volume = 1f;
-
+    public GameObject pTextDisplay;
+    public string pText;
     SpriteRenderer sr;
 
     public void Start() {
         sr = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+        pTextDisplay = GameObject.Find("PowerupText");
         StartCoroutine(Fade(alphaVal, fadeStart));
     }
 
@@ -33,5 +36,11 @@ public class Powerup : MonoBehaviour
         if (!powerupActive) {
             Destroy(this.gameObject);
         }
+    }
+
+    public void changeText(string text, Color colour) {
+        pTextDisplay.GetComponent<Text>().text = text;
+        pTextDisplay.GetComponent<Text>().color = colour;
+        pTextDisplay.GetComponent<Text>().enabled = true;
     }
 }

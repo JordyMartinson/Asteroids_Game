@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExtraLifePU : Powerup
 {
     private void OnTriggerEnter2D (Collider2D collision) {
         if (collision.gameObject.tag == "Player") {
-            Pickup(collision);
+            StartCoroutine( Pickup(collision) );
         }
     }
 
-    private void Pickup (Collider2D player) {
+    IEnumerator Pickup (Collider2D player) {
         audioSource.PlayOneShot(clip, volume);
+        changeText("EXTRA LIFE", Color.green);
+        FindObjectOfType<GameManager>().LivesChange(true);
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
-        FindObjectOfType<GameManager>().LivesChange(true);
-        Destroy(gameObject, 1f);
+        powerupActive = true;
+        yield return new WaitForSeconds(effectDuration);
+        powerupActive = false;
+        pTextDisplay.GetComponent<Text>().enabled = false;
+        Destroy(gameObject);
     }
 }
