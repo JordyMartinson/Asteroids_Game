@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class AchievementsMenu : AchievementsSuper
 {
-    public int achOffset = -110;
-    public Vector3 vector = new Vector3(0, -100, 0);
+    public int achOffset = -100;
+    // public Vector3 vector = new Vector3(0, -100, 0);
 
     IEnumerator Start() {
         yield return new WaitForSeconds(0.1f);
@@ -15,13 +15,13 @@ public class AchievementsMenu : AchievementsSuper
 
     public void SetAchieved() {
         for (int i = 1; i < (codes.Length); i++) {
-            AchPanel newPanel = Instantiate(achPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("AchScrollContent").transform);
+            AchPanel newPanel = Instantiate(achPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("AchMainPanel").transform);
             newPanel.rt.anchorMin = new Vector2(0.5f, 1);
             newPanel.rt.anchorMax = new Vector2(0.5f, 1);
             newPanel.rt.pivot = new Vector2(0.5f, 0.5f);
-            newPanel.rt.sizeDelta = new Vector2(800, 100);
+            newPanel.rt.sizeDelta = new Vector2(700, 100);
             newPanel.title.GetComponent<Text>().text = titles[i];
-            Vector3 newVector = new Vector3(350, (i * achOffset), 0);
+            Vector3 newVector = new Vector3(0, (i * achOffset), 0);
             newPanel.rt.anchoredPosition = newVector;
 
             if ((PlayerPrefs.GetInt(codes[i]) == 1? true:false)) {

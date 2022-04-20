@@ -793,7 +793,6 @@ MonoBehaviour:
   achPanel: {fileID: 0}
   achActive: 0
   achTitle: {fileID: 0}
-  achDesc: {fileID: 0}
   ach01TriggerInt: 1000
   got: 00000000
 --- !u!4 &413293995
@@ -1108,6 +1107,13 @@ MonoBehaviour:
     curScore: 0
     curTime: 0
     playerID: 0
+    musicVol: 0
+    sfxVol: 0
+    tempMusicVol: 0
+    tempSFXVol: 0
+    musicMuted: 0
+    sfxMuted: 0
+    codes: 
   explosion: {fileID: 1150061249}
   scoreText: {fileID: 857468431}
   livesText: {fileID: 377076203}
@@ -1156,7 +1162,7 @@ AudioSource:
   m_GameObject: {fileID: 753499383}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1823775288079909143, guid: 5a8722a4426156140820f3421c207dcd, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1421,7 +1427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 7995954665963232441, guid: f3f58c254f060bd458efebc1fd31454b, type: 3}
   spawnRate: 2
-  spawnDistance: 30
+  spawnDistance: 50
   trajVariance: 15
   spawnAmount: 1
 --- !u!4 &821032396
@@ -7234,9 +7240,9 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488712264}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 703418341104030503, guid: 5a8722a4426156140820f3421c207dcd, type: 2}
   m_audioClip: {fileID: 8300000, guid: 26364aaf1f64b40c1a047b0bacfbd10e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1

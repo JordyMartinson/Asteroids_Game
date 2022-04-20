@@ -8,11 +8,8 @@ public class AchievementManager : AchievementsSuper
     public GameObject achPanel;
     public bool achActive = false;
     public GameObject achTitle;
-    public GameObject achDesc;
-    // public Texture achImage;
 
 
-    // public string[] titles = new string[numAchs];
     public static bool[] triggers = new bool[numAchs];
     public static int ach01Count;
     public int ach01TriggerInt = 1000;
@@ -43,7 +40,6 @@ public class AchievementManager : AchievementsSuper
 
         AchPanel newPanel = Instantiate(achPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Header").transform);
         newPanel.title.GetComponent<Text>().text = titles[i];
-        newPanel.desc.GetComponent<Text>().text = descriptions[i];
         newPanel.image.GetComponent<RawImage>().texture = textures[i];
         newPanel.rt.anchorMin = Vector2.one;
         newPanel.rt.anchorMax = Vector2.one;

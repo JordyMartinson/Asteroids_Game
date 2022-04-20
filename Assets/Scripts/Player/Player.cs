@@ -41,7 +41,8 @@ public class Player : MonoBehaviour
         sprites = Resources.LoadAll<Sprite>("Sprites");
         spriteRenderer = GameObject.Find("Player").GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[playerData.getSpriteNum()];
-
+        Destroy(gameObject.GetComponent<PolygonCollider2D>());
+        gameObject.AddComponent<PolygonCollider2D>();
     }
 
     private void Update() {

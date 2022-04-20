@@ -40,7 +40,6 @@ public static class SaveManager
             }
         }
         string name = temp.name;
-        // Debug.Log(name);
         path = pathBase + ("/" + name + ".save");
         if (File.Exists(path)) {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -50,18 +49,18 @@ public static class SaveManager
             data.playerID = id;
             return data;            
         } else {
-            Debug.LogError("Save file not found, creating default");
+            // Debug.LogError("Save file not found, creating default");
             return null;
-            Player defPlayer = new Player();
-            defPlayer.playerName = "Default";
-            PlayerData defPlayerData = new PlayerData(defPlayer);
-            SavePlayer(defPlayerData);
+            // Player defPlayer = new Player();
+            // defPlayer.playerName = "Default";
+            // PlayerData defPlayerData = new PlayerData(defPlayer);
+            // SavePlayer(defPlayerData);
 
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-            PlayerData defData = formatter.Deserialize(stream) as PlayerData;
-            stream.Close();
-            return defData;
+            // BinaryFormatter formatter = new BinaryFormatter();
+            // FileStream stream = new FileStream(path, FileMode.Open);
+            // PlayerData defData = formatter.Deserialize(stream) as PlayerData;
+            // stream.Close();
+            // return defData;
         }
     }
 
