@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public ParticleSystem explosion;
     public Text scoreText;
     public Text livesText;
+    public GameObject header;
     public EndMenu gameOver;
 
     public int lives;
@@ -39,6 +40,8 @@ public class GameManager : MonoBehaviour
         playerData = SaveManager.currentPlayer;
         playerData.reset();
         audioSource = GetComponent<AudioSource>();
+        header = GameObject.Find("/UI/Header");
+        header.SetActive(true);
     }
 
     public void Update() {
@@ -118,8 +121,9 @@ public class GameManager : MonoBehaviour
         // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)player.curTime));
         SaveManager.UpdateSave(this.playerData);
         isGameOver = true;
-        livesText.enabled = false;
-        scoreText.enabled = false;
+        // livesText.enabled = false;
+        // scoreText.enabled = false;
+        header.SetActive(false);
         gameOver.Show(playerData.curScore);
     }
 

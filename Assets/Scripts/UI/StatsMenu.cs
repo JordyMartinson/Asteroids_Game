@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,8 +43,8 @@ public class StatsMenu : MonoBehaviour
         timeSecs = SaveManager.currentPlayer.timePlayed % minuteDiv;
         highScore = SaveManager.currentPlayer.highScore;
         bulletsFired = SaveManager.currentPlayer.bulletsFired;
-
-        highScoreText.text = string.Format("High Score: {0} points", highScore);
+        // Debug.Log(highScore);
+        highScoreText.text = string.Format("High Score:{0}{1} points", Environment.NewLine, highScore);
 
         if (timeMins == 1) {
             minsText = "minute";
@@ -54,13 +55,13 @@ public class StatsMenu : MonoBehaviour
         }
 
         if (timeMins == 0) {
-            timePlayedText.text = string.Format("Time Played: {0} {1}",
-                timeSecs, secsText);
+            timePlayedText.text = string.Format("Time Played:{0}{1} {2}",
+                Environment.NewLine, timeSecs, secsText);
         } else {
-            timePlayedText.text = string.Format("Time Played: {0} {1} {2} {3}",
-                timeMins, minsText, timeSecs, secsText);
+            timePlayedText.text = string.Format("Time Played:{0}{1} {2} {3} {4}",
+                Environment.NewLine, timeMins, minsText, timeSecs, secsText);
         }
 
-        bulletsFiredText.text = string.Format("Bullets Fired: {0}", bulletsFired);
+        bulletsFiredText.text = string.Format("Bullets Fired:{0}{1}", Environment.NewLine, bulletsFired);
     }
 }

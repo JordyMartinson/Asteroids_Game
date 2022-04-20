@@ -20,7 +20,7 @@ public class Powerup : MonoBehaviour
     public void Start() {
         sr = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        pTextDisplay = GameObject.FindWithTag("PUText");
+        pTextDisplay = GameObject.Find("/UI/Header/PlayerStats/PowerupText");
         StartCoroutine(Fade(alphaVal, fadeStart));
     }
 

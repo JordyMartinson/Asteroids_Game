@@ -16,13 +16,14 @@ public class Asteroid : MonoBehaviour
 
     private SpriteRenderer sr;
     private Rigidbody2D rb2D;
-    // public Powerup powerup;
+    public PolygonCollider2D pc2D;
 
     public bool playerKill = false;
 
     private void Awake() {
         sr = GetComponent<SpriteRenderer>();
         rb2D = GetComponent<Rigidbody2D>();
+        pc2D = GetComponent<PolygonCollider2D>();
     }
 
     // Start is called before the first frame update
@@ -30,9 +31,10 @@ public class Asteroid : MonoBehaviour
     {
         
         sr.sprite = sprites[Random.Range(0, sprites.Length-1)];
-        Destroy(gameObject.GetComponent<PolygonCollider2D>());
-        gameObject.AddComponent<PolygonCollider2D>();
+        // Destroy(gameObject.GetComponent<PolygonCollider2D>());
+        // gameObject.AddComponent<PolygonCollider2D>();
         
+        UpdatePolygonCollider2D();
         this.transform.eulerAngles = new Vector3(0.0f, 0.0f, Random.value * 360.0f);
 
         this.transform.localScale = Vector3.one * this.size;
@@ -79,5 +81,17 @@ public class Asteroid : MonoBehaviour
         half.size = this.size / 2;
 
         half.SetTrajectory(Random.insideUnitCircle.normalized * this.speed);
+    }
+
+    public void UpdatePolygonCollider2D() {
+        List<Vector2> points = new List<Vector2>();
+        List<Vector2> simplePoints = new List<Vector2>();
+        pc2D.pathCount = sr.sprite.GetPhysicsShapeCount();
+
+        for(int i = 0; i < pc2D.pathCount; i++) {
+            sr.sprite.GetPhysicsShape(i, points);
+            LineUtility.Simplify(points, 0.05f, simplePoints);
+            pc2D.SetPath(i, simplePoints);
+        }
     }
 }
