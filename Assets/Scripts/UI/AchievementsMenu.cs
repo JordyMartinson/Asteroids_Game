@@ -24,7 +24,7 @@ public class AchievementsMenu : AchievementsSuper
             Vector3 newVector = new Vector3(0, (i * achOffset), 0);
             newPanel.rt.anchoredPosition = newVector;
 
-            if ((PlayerPrefs.GetInt(codes[i]) == 1? true:false)) {
+            if (SaveManager.currentPlayer.getCodes()[i]) {
                 newPanel.desc.GetComponent<Text>().text = descriptions[i];
                 newPanel.image.GetComponent<RawImage>().texture = textures[i];
             } else {

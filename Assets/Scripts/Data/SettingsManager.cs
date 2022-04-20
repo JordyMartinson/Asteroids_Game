@@ -31,7 +31,7 @@ public class SettingsManager : MonoBehaviour
         SaveManager.currentPlayer.setMusicVol(volume);
         SaveManager.SavePlayer(SaveManager.currentPlayer);
         musicSlider.value = volume;
-        Debug.Log(SaveManager.currentPlayer.getMusicVol() + " " + SaveManager.currentPlayer.getTempMusicVol());
+        // Debug.Log(SaveManager.currentPlayer.getMusicVol() + " " + SaveManager.currentPlayer.getTempMusicVol());
     }
 
     public void setSFXVolume(float volume) {

@@ -25,7 +25,8 @@ public class AchievementManager : AchievementsSuper
         triggers[1] = (ach01Count >= ach01TriggerInt);
 
         for(int i = 1; i < codes.Length; i++) {
-            got[i] = PlayerPrefs.GetInt(codes[i]) == 1? true : false;
+            // got[i] = PlayerPrefs.GetInt(codes[i]) == 1? true : false;
+            got[i] = SaveManager.currentPlayer.getCodes()[i];
             if (triggers[i] && !got[i]) {
                 StartCoroutine( TriggerAch(i) );
             }
@@ -36,8 +37,8 @@ public class AchievementManager : AchievementsSuper
         achActive = true;
         got[i] = true;
         triggers[i] = false;
-        PlayerPrefs.SetInt(codes[i], got[i] ? 1:0);
-
+        // PlayerPrefs.SetInt(codes[i], got[i] ? 1:0);
+        SaveManager.currentPlayer.setCode(i);
         AchPanel newPanel = Instantiate(achPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Header").transform);
         newPanel.title.GetComponent<Text>().text = titles[i];
         newPanel.image.GetComponent<RawImage>().texture = textures[i];

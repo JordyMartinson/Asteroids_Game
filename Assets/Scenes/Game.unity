@@ -905,7 +905,7 @@ GameObject:
   - component: {fileID: 646445686}
   m_Layer: 5
   m_Name: PowerupText
-  m_TagString: Untagged
+  m_TagString: PUText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1193,6 +1193,7 @@ MonoBehaviour:
     musicMuted: 0
     sfxMuted: 0
     codes: 
+    gameModes: 
   explosion: {fileID: 1150061249}
   scoreText: {fileID: 857468431}
   livesText: {fileID: 377076203}

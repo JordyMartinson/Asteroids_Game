@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public AudioClip death;
     public AudioClip hit;
     public float volume = 1f;
+    public float minute = 60f;
 
     public void Awake() {
         Time.timeScale = 1f;
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void Update() {
         playerData.curTime = Time.time - startTime;
-        if (playerData.curTime >= 10f) {
+        if (playerData.curTime >= minute) {
             AchievementManager.triggers[3] = true;
         }
 

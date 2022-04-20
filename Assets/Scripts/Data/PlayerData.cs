@@ -19,7 +19,8 @@ public class PlayerData
     public float tempSFXVol = 1f;
     public bool musicMuted = false;
     public bool sfxMuted = false;
-    public bool[] codes;
+    public bool[] codes = new bool[AchievementsSuper.numAchs];
+    public bool[] gameModes = new bool[GameModes.numModes];
 
     public PlayerData(Player player) {
         this.name = player.playerName;
@@ -28,8 +29,25 @@ public class PlayerData
         this.bulletsFired = player.bulletsFired;
         this.curScore = player.curScore;
         this.curTime = player.curTime;
+        // this.codes = new bool[ AchievementsSuper.numAchs];
         // this.playerID = SaveManager.getPlayerID();
         // Debug.Log(this.curScore);
+    }
+
+    public bool[] getCodes() {
+        return this.codes;
+    }
+
+    public void setCode(int i) {
+        this.codes[i] = true;
+    }
+
+    public bool[] getModes() {
+        return this.gameModes;
+    }
+
+    public void setMode(int i, bool onOff) {
+        this.gameModes[i] = onOff;
     }
 
     public void setSpriteNum(int num) {

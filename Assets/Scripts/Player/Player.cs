@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     private PlayerData playerData;
     private SpriteRenderer spriteRenderer;
     private Sprite[] sprites;
+    private bool[] playerModes;
 
 
 
@@ -34,10 +35,12 @@ public class Player : MonoBehaviour
         bulletsFired = 0;
         curScore = 0;
         curTime = 0;
+        
         // mainCam = gameObject.GetComponent<Camera>();
         mainCam = Camera.main;
 
         playerData = SaveManager.currentPlayer; //change to current player
+        playerModes = playerData.getModes();
         sprites = Resources.LoadAll<Sprite>("Sprites");
         spriteRenderer = GameObject.Find("Player").GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[playerData.getSpriteNum()];
@@ -46,7 +49,12 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
-        forward = Input.GetKey(KeyCode.W);
+        if(playerModes[2]) {
+            forward = true;
+        } else {
+            forward = Input.GetKey(KeyCode.W);
+        }
+
         if (Input.GetKey(KeyCode.A)) {
             turn = 1.0f;
         }
@@ -56,7 +64,8 @@ public class Player : MonoBehaviour
             turn = 0.0f;
         }
         
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) & !GameManager.paused) {
+        if (Input.GetKeyDown(KeyCode.Space) | Input.GetMouseButtonDown(0) &
+                !GameManager.paused & !playerModes[0]) {
             ShootBullets();
         }
     }
@@ -87,9 +96,17 @@ public class Player : MonoBehaviour
     }
 
     private void ShootBullets() {
-        var fireAngle = this.transform.up;
-        var rotation = this.transform.rotation;
-        rotation *= Quaternion.Euler(0, 0, 0);
+        Vector3 fireAngle;
+        Quaternion rotation;
+        if(playerModes[1]) {
+            fireAngle = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+            rotation = Random.rotation;
+            rotation *= Quaternion.Euler(0, 0, 0);
+        } else {
+            fireAngle = this.transform.up;
+            rotation = this.transform.rotation;
+            rotation *= Quaternion.Euler(0, 0, 0);
+        }
 
         for (int i = 0; i < numBullets; i++) {
             Bullet bullet = Instantiate(this.bulletPrefab, this.transform.position, rotation);
@@ -97,9 +114,7 @@ public class Player : MonoBehaviour
             rotation *= Quaternion.Euler(0, 0, angleChange);
             fireAngle = Quaternion.Euler(0, 0, angleChange) * fireAngle;
         }
-        // Debug.Log(playerData.bulletsFired);
         bulletsFired += numBullets;
-        // Debug.Log(playerData.bulletsFired);
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {

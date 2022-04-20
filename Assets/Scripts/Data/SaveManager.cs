@@ -73,9 +73,11 @@ public static class SaveManager
             newPlayer.playerName = "Default";
             PlayerData pd = new PlayerData(newPlayer);
             pd.setMusicVol(1f);
-            Debug.Log(pd.getMusicVol());
+            pd.setSFXVol(1f);
+            Debug.Log(pd.getCodes()[0]);
             SavePlayer(pd);
         }
+
         ArrayList profiles = new ArrayList();
         foreach (string f in Directory.EnumerateFiles(pathBase, "*.save")) {
             FileStream stream1 = new FileStream(f, FileMode.Open);
