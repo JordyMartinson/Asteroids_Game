@@ -70,6 +70,10 @@ public class PlayerData
         spriteNum = 0;
     }
 
+    public void setPlayerID(int id) {
+        this.playerID = id;
+    }
+
     public int getPlayerID() {
         return this.playerID;
     }
@@ -126,5 +130,9 @@ public class PlayerData
 
     public void sfxMuteUnmute(bool muted) {
         this.sfxMuted = muted;
+    }
+
+    public string getName() {
+        return this.name;
     }
 }

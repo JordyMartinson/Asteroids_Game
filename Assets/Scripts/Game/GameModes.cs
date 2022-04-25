@@ -28,11 +28,16 @@ public class GameModes : MonoBehaviour
         // pacifistToggle.isOn = false;
         // randomToggle.isOn = false;
         // forwardToggle.isOn = false;
+        // Debug.Log("current " + pd.name);
+        pd = SaveManager.currentPlayer;
+        // Debug.Log("current " + pd.name);
         for(int i = 0; i < numModes; i++) {
+            // Debug.Log("toggle " + i + " " + SaveManager.currentPlayer.getModes()[i]);
             toggles[i].isOn = false;
             pd.setMode(i, false);
+            // Debug.Log("toggle " + i + " " + SaveManager.currentPlayer.getModes()[i]);
         }
-        SaveManager.SavePlayer(pd);
+        // SaveManager.SavePlayer(pd);
     }
 
     public void modeOn(int i) {

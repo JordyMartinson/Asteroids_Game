@@ -52,13 +52,13 @@ public class Player : MonoBehaviour
         if(playerModes[2]) {
             forward = true;
         } else {
-            forward = Input.GetKey(KeyCode.W);
+            forward = Input.GetKey(KeyCode.W) | Input.GetKey(KeyCode.UpArrow);
         }
 
-        if (Input.GetKey(KeyCode.A)) {
+        if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.LeftArrow)) {
             turn = 1.0f;
         }
-        else if (Input.GetKey(KeyCode.D)) {
+        else if (Input.GetKey(KeyCode.D) | Input.GetKey(KeyCode.RightArrow)) {
             turn = -1.0f;
         } else {
             turn = 0.0f;

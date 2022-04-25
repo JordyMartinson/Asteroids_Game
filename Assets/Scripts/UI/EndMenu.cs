@@ -9,6 +9,7 @@ public class EndMenu : MonoBehaviour
     public Text scoreText;
     public Text headerText;
     public Text subText;
+    public int endScore = 0;
 
     public void Awake() {
         gameManager = FindObjectOfType<GameManager>();
@@ -19,6 +20,7 @@ public class EndMenu : MonoBehaviour
         headerText.text = "GAME OVER";
         subText.text = "FINAL SCORE";
         scoreText.text = total.ToString();
+        endScore = total;
     }
 
     public void Pause() {
@@ -44,9 +46,11 @@ public class EndMenu : MonoBehaviour
         // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
         // PlayerData pD = new PlayerData(gameManager.getPlayerData());
         PlayerData pD = gameManager.getPlayerData();
+        pD.curScore = endScore;
         // Debug.Log("pd " + pD.getSpriteNum());
         SaveManager.UpdateSave(gameManager.getPlayerData());
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        
     }
 }

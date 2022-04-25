@@ -27,21 +27,42 @@ public class GameManager : MonoBehaviour
     public AudioClip hit;
     public float volume = 1f;
     public float minute = 60f;
+    public float fiveSecs = 5f;
+
+    public bool[] playerModes;
 
     public void Awake() {
+        playerData = SaveManager.currentPlayer;
+        playerData.reset();
+        playerModes = playerData.getModes();
         Time.timeScale = 1f;
         isGameOver = false;
         paused = false;
         score = 0;
         scoreMult = 25;
+        for(int i = 0; i < playerModes.Length; i++) {
+            if(playerModes[i]) {
+                scoreMult += 25;
+            }
+        }
+        Debug.Log(scoreMult);
         lives = 3;
         startTime = Time.time;
         firedShot = false;
-        playerData = SaveManager.currentPlayer;
-        playerData.reset();
+
         audioSource = GetComponent<AudioSource>();
         header = GameObject.Find("/UI/Header");
         header.SetActive(true);
+        if(playerModes[0]) {
+            InvokeRepeating(nameof(pacifistScorer), fiveSecs, fiveSecs);
+            // InvokeRepeating(nameof(Spawn), this.spawnRate, this.spawnRate);
+        }
+    }
+
+    private void pacifistScorer() {
+        Debug.Log("reached");
+        playerData.curScore += scoreMult;
+        scoreUpdate();
     }
 
     public void Update() {
@@ -81,6 +102,10 @@ public class GameManager : MonoBehaviour
         } else {
             score = (1 * scoreMult);
         }
+        scoreUpdate();
+    }
+
+    public void scoreUpdate() {
         playerData.curScore += score;
         // Debug.Log(playerData.curScore);
         scoreText.text = "Score : " + playerData.curScore.ToString();

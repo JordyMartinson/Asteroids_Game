@@ -9,7 +9,7 @@ public class Asteroid : MonoBehaviour
     public float minSize = 2.0f;
     public float maxSize = 6.0f;
     public float speed = 15.0f;
-    public float maxLifetime = 60.0f;
+    public float maxLifetime = 30.0f;
     
     public Powerup[] powerups;
     public float powerupChance = 10f;

@@ -39,10 +39,12 @@ public class Profiles : MonoBehaviour
         pd.setMusicVol(1f);
         pd.setSFXVol(1f);
         SaveManager.SavePlayer(pd);
+        SaveManager.profiles = SaveManager.loadProfiles();
+        SaveManager.currentPlayer = SaveManager.LoadPlayerByName(pd.getName());
         setPNameText(pd);
         setSprite(pd.getPlayerID());
         setNewVols();
-        SaveManager.profiles = SaveManager.loadProfiles();
+        inField.text = "";
     }
 
     public void setSprite(int spriteNum) {
@@ -50,6 +52,7 @@ public class Profiles : MonoBehaviour
     }
 
     public void getNextPlayer() {
+        // Debug.Log(SaveManager.currentPlayer.getPlayerID() + " " + SaveManager.currentPlayer.getName());
         int next = SaveManager.currentPlayer.getPlayerID() + 1;
         if(next == SaveManager.profiles.Count) {
             next = 0;
@@ -63,6 +66,7 @@ public class Profiles : MonoBehaviour
         setPNameText(SaveManager.currentPlayer);
         setSprite(SaveManager.currentPlayer.getSpriteNum());
         setNewVols();
+        // Debug.Log(SaveManager.currentPlayer.getPlayerID() + " " + SaveManager.currentPlayer.getName());
     }
 
     public void getPreviousPlayer() {

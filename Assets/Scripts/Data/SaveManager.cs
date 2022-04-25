@@ -64,6 +64,15 @@ public static class SaveManager
         }
     }
 
+    public static PlayerData LoadPlayerByName(string name) {
+        foreach(PlayerData p in profiles) {
+            if(p.getName() == name) {
+                return LoadPlayer(p.getPlayerID());
+            }
+        }
+        return null;
+    }
+
     public static ArrayList loadProfiles() {
         int i = 0;
         BinaryFormatter formatter1 = new BinaryFormatter();
@@ -74,7 +83,6 @@ public static class SaveManager
             PlayerData pd = new PlayerData(newPlayer);
             pd.setMusicVol(1f);
             pd.setSFXVol(1f);
-            Debug.Log(pd.getCodes()[0]);
             SavePlayer(pd);
         }
 
