@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,8 +9,8 @@ public class PlayerData
     public int bulletsFired;
     public int spriteNum;
     public int curScore;
-    public float curTime;
     public int playerID;
+    public float curTime;
     public float musicVol = 1f;
     public float sfxVol = 1f;
     public float tempMusicVol = 1f;
@@ -29,9 +27,18 @@ public class PlayerData
         this.bulletsFired = player.bulletsFired;
         this.curScore = player.curScore;
         this.curTime = player.curTime;
-        // this.codes = new bool[ AchievementsSuper.numAchs];
-        // this.playerID = SaveManager.getPlayerID();
-        // Debug.Log(this.curScore);
+    }
+
+    public void reset() {
+        highScore = 0;
+        timePlayed = 0;
+        bulletsFired = 0;
+        curScore = 0;
+        curTime = 0;
+    }
+
+    public void resetSprite() {
+        spriteNum = 0;
     }
 
     public bool[] getCodes() {
@@ -58,18 +65,6 @@ public class PlayerData
         return this.spriteNum;
     }
 
-    public void reset() {
-        highScore = 0;
-        timePlayed = 0;
-        bulletsFired = 0;
-        curScore = 0;
-        curTime = 0;
-    }
-
-    public void resetSprite() {
-        spriteNum = 0;
-    }
-
     public void setPlayerID(int id) {
         this.playerID = id;
     }
@@ -83,9 +78,7 @@ public class PlayerData
     }
 
     public void setTempMusicVol(float vol) {
-        // Debug.Log("before " + this.tempMusicVol);
         this.tempMusicVol = vol;
-        // Debug.Log("after " + this.tempMusicVol);
     }
 
     public float getMusicVol() {
@@ -93,7 +86,6 @@ public class PlayerData
     }
 
     public float getTempMusicVol() {
-        // Debug.Log("get " + this.tempMusicVol);
         return this.tempMusicVol;
     }
 
@@ -110,9 +102,7 @@ public class PlayerData
     }
 
     public void setTempSFXVol(float vol) {
-        // Debug.Log("before " + this.tempMusicVol);
         this.tempSFXVol = vol;
-        // Debug.Log("after " + this.tempMusicVol);
     }
 
     public float getSFXVol() {
@@ -120,7 +110,6 @@ public class PlayerData
     }
 
     public float getTempSFXVol() {
-        // Debug.Log("get " + this.tempMusicVol);
         return this.tempSFXVol;
     }
 
@@ -134,5 +123,9 @@ public class PlayerData
 
     public string getName() {
         return this.name;
+    }
+
+    public void setBulletsFired(int setBullets) {
+        this.bulletsFired = setBullets;
     }
 }

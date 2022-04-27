@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 public static class SaveManager
 {
-    private static string pathBase = Application.persistentDataPath;
-    private static string path;
     public static ArrayList profiles;
     public static PlayerData currentPlayer;
+    private static string path;
+    private static string pathBase = Application.persistentDataPath;
 
     public static void SavePlayer(PlayerData playerData) {
         path = pathBase + "/" + playerData.name + ".save";
@@ -49,18 +49,7 @@ public static class SaveManager
             data.playerID = id;
             return data;            
         } else {
-            // Debug.LogError("Save file not found, creating default");
             return null;
-            // Player defPlayer = new Player();
-            // defPlayer.playerName = "Default";
-            // PlayerData defPlayerData = new PlayerData(defPlayer);
-            // SavePlayer(defPlayerData);
-
-            // BinaryFormatter formatter = new BinaryFormatter();
-            // FileStream stream = new FileStream(path, FileMode.Open);
-            // PlayerData defData = formatter.Deserialize(stream) as PlayerData;
-            // stream.Close();
-            // return defData;
         }
     }
 
@@ -76,22 +65,19 @@ public static class SaveManager
     public static ArrayList loadProfiles() {
         int i = 0;
         BinaryFormatter formatter1 = new BinaryFormatter();
-
         if(Directory.GetFiles(pathBase, "*.save").Length == 0) {
             Player newPlayer = new Player();
-            newPlayer.playerName = "Default";
+            newPlayer.setName("Default");
             PlayerData pd = new PlayerData(newPlayer);
             pd.setMusicVol(1f);
             pd.setSFXVol(1f);
             SavePlayer(pd);
         }
-
         ArrayList profiles = new ArrayList();
         foreach (string f in Directory.EnumerateFiles(pathBase, "*.save")) {
             FileStream stream1 = new FileStream(f, FileMode.Open);
             PlayerData data1 = formatter1.Deserialize(stream1) as PlayerData;
             data1.playerID = i;
-            // Debug.Log(data1.name + " " + data1.playerID);
             stream1.Close();
             profiles.Add(data1);
             i++;

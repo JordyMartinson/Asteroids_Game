@@ -3,28 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Powerup : MonoBehaviour
+public abstract class Powerup : MonoBehaviour
 {
-    public static float stayDuration = 7f;
-    public float fadeStart = stayDuration * 0.8f;
-    public static float effectDuration = 5f;
-    public float alphaVal = 0f;
-    public bool powerupActive = false;
-    public AudioSource audioSource;
+    protected AudioSource audioSource;
     public AudioClip clip;
-    public float volume = 1f;
-    public GameObject pTextDisplay;
-    public string pText;
-    SpriteRenderer sr;
+    protected SpriteRenderer sr;
+    protected GameObject pTextDisplay;
+    protected Color textCol;
+    protected CircleCollider2D cCollider;
+    protected GameManager gameManager;
+    protected static float stayDuration = 7f;
+    protected static float effectDuration = 5f;
+    protected static float fadeStart = stayDuration * 0.8f;
+    protected float alphaVal = 0f;
+    protected float volume = 1f;
+    protected bool powerupActive = false;
+    protected string pText;
 
-    public void Start() {
+    protected void Start() {
+        gameManager = FindObjectOfType<GameManager>();
         sr = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+        cCollider = GetComponent<CircleCollider2D>();
         pTextDisplay = GameObject.Find("/UI/Header/PlayerStats/PowerupText");
         StartCoroutine(Fade(alphaVal, fadeStart));
     }
 
-    IEnumerator Fade(float alphaVal, float fadeStart) {
+    protected void OnTriggerEnter2D (Collider2D collision) {
+        if (collision.gameObject.tag == "Player") {
+            StartCoroutine( Pickup(collision) );
+        }
+    }
+
+    protected abstract IEnumerator Pickup (Collider2D player);
+
+    protected void changeText(string text, Color colour) {
+        pTextDisplay.GetComponent<Text>().text = text;
+        pTextDisplay.GetComponent<Text>().color = colour;
+        pTextDisplay.GetComponent<Text>().enabled = true;
+    }
+
+    protected IEnumerator Fade(float alphaVal, float fadeStart) {
         yield return new WaitForSeconds(fadeStart);
         float alpha = sr.color.a;
 
@@ -36,11 +55,5 @@ public class Powerup : MonoBehaviour
         if (!powerupActive) {
             Destroy(this.gameObject);
         }
-    }
-
-    public void changeText(string text, Color colour) {
-        pTextDisplay.GetComponent<Text>().text = text;
-        pTextDisplay.GetComponent<Text>().color = colour;
-        pTextDisplay.GetComponent<Text>().enabled = true;
     }
 }

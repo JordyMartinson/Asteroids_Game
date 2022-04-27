@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 public class EndMenu : MonoBehaviour
 {
-    public GameManager gameManager;
+    [SerializeField] private Text scoreText;
+    [SerializeField] private Text headerText;
+    [SerializeField] private Text subText;
+    private GameManager gameManager;
+    private int endScore = 0;
 
-    public Text scoreText;
-    public Text headerText;
-    public Text subText;
-    public int endScore = 0;
-
-    public void Awake() {
+    private void Awake() {
         gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -34,23 +33,16 @@ public class EndMenu : MonoBehaviour
         }
     }
 
-    public void Restart() {
-        // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
-        // PlayerStatsManager.AddTimeToTotal();
-        PlayerData pD = new PlayerData(gameManager.getPlayer());
+    private void Restart() {
+        PlayerData pD = SaveManager.currentPlayer;
         SaveManager.UpdateSave(pD);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void QuitGame() {
-        // PlayerPrefs.SetInt("timePlayed", (PlayerPrefs.GetInt("timePlayed") + (int)FindObjectOfType<GameManager>().t));
-        // PlayerData pD = new PlayerData(gameManager.getPlayerData());
-        PlayerData pD = gameManager.getPlayerData();
-        pD.curScore = endScore;
-        // Debug.Log("pd " + pD.getSpriteNum());
-        SaveManager.UpdateSave(gameManager.getPlayerData());
+    private void QuitGame() {
+        PlayerData pD = SaveManager.currentPlayer;
+        SaveManager.UpdateSave(pD);
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        
     }
 }

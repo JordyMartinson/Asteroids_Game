@@ -5,15 +5,14 @@ using UnityEngine.UI;
 
 public class AchievementsMenu : AchievementsSuper
 {
-    public int achOffset = -100;
-    // public Vector3 vector = new Vector3(0, -100, 0);
-
-    IEnumerator Start() {
+    private int achOffset = -100;
+    private IEnumerator Start() {
         yield return new WaitForSeconds(0.1f);
         SetAchieved();
     }
 
-    public void SetAchieved() {
+    private void SetAchieved() {
+        Reset();
         for (int i = 1; i < (codes.Length); i++) {
             AchPanel newPanel = Instantiate(achPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("AchMainPanel").transform);
             newPanel.rt.anchorMin = new Vector2(0.5f, 1);

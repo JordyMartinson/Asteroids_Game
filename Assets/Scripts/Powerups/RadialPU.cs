@@ -1,29 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RadialPU : Powerup
 {
-    public int radial = 8;
+    private int radial = 8;
 
-    private void OnTriggerEnter2D (Collider2D collision) {
-        if (collision.gameObject.tag == "Player") {
-            StartCoroutine( Pickup(collision) );
-        }
-    }
-
-    IEnumerator Pickup (Collider2D player) {
+    protected override IEnumerator Pickup (Collider2D player) {
         audioSource.PlayOneShot(clip, volume);
         changeText("EXTRA BULLETS", Color.white);
         Player playerScript = player.GetComponent<Player>();
-        playerScript.numBullets = radial;
-        GetComponent<SpriteRenderer>().enabled = false;
-        GetComponent<Collider2D>().enabled = false;
+        playerScript.setNumBullets(radial);
+        sr.enabled = false;
+        cCollider.enabled = false;
         powerupActive = true;
         yield return new WaitForSeconds(effectDuration);
         powerupActive = false;
-        playerScript.numBullets = radial/radial;
+        playerScript.setNumBullets(radial/radial);
         pTextDisplay.GetComponent<Text>().enabled = false;
         Destroy(gameObject);
     }

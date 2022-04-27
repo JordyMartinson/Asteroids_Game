@@ -1,48 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameModes : MonoBehaviour
 {
-    public PlayerData pd;
+    [SerializeField] private Toggle[] toggles = new Toggle[numModes];
     public static int numModes = 3;
+    private PlayerData pD;
 
-    // public Toggle pacifistToggle;
-    // public Toggle randomToggle;
-    // public Toggle forwardToggle;
-    public Toggle[] toggles = new Toggle[numModes];
-
-    public void Start() {
-        pd = SaveManager.currentPlayer;
-        // Debug.Log(pd.getModes());
+    private void Start() {
+        pD = SaveManager.currentPlayer;
         resetModes();
     }
 
-    // IEnumerator Start() {
-    //     yield return new WaitForSeconds(0.1f);
-    //     SetAchieved();
-    // }
-
     public void resetModes() {
-        // pacifistToggle.isOn = false;
-        // randomToggle.isOn = false;
-        // forwardToggle.isOn = false;
-        // Debug.Log("current " + pd.name);
-        pd = SaveManager.currentPlayer;
-        // Debug.Log("current " + pd.name);
+        pD = SaveManager.currentPlayer;
         for(int i = 0; i < numModes; i++) {
-            // Debug.Log("toggle " + i + " " + SaveManager.currentPlayer.getModes()[i]);
             toggles[i].isOn = false;
-            pd.setMode(i, false);
-            // Debug.Log("toggle " + i + " " + SaveManager.currentPlayer.getModes()[i]);
+            pD.setMode(i, false);
         }
-        // SaveManager.SavePlayer(pd);
     }
 
-    public void modeOn(int i) {
-        pd.setMode(i, toggles[i].isOn);
-        
+    // Method to stop pacifist and random shooting both being on
+    private void modeOn(int i) {
+        pD.setMode(i, toggles[i].isOn);
         if(i == 0 && toggles[i].isOn) {
             toggles[1].interactable = false;
         } else if(i == 1 && toggles[i].isOn) {
@@ -51,7 +31,6 @@ public class GameModes : MonoBehaviour
             toggles[0].interactable = true;
             toggles[1].interactable = true;
         }
-        SaveManager.SavePlayer(pd);
-        // Debug.Log(pd.getModes()[0] + " " + pd.getModes()[1] + " " + pd.getModes()[2]);
+        SaveManager.SavePlayer(pD);
     }
 }

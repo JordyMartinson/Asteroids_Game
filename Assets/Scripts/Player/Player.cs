@@ -1,45 +1,35 @@
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private Rigidbody2D rigidBody;
+    [SerializeField] private PlayerData playerData;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private PlayerMovement movement;
+    [SerializeField] private PlayerShoot shooting;
+    [SerializeField] private Sprite[] sprites;
     public string playerName;
     public int curScore;
-    public float curTime; 
     public int highScore;
     public int timePlayed;
     public int bulletsFired;
-
-    public Rigidbody2D rigidBody;
-    public Bullet bulletPrefab;
-
-    public float moveForce = 1.5f;
-    public float turnForce = 0.25f;
+    public float curTime;
+    public float turn;
+    public bool forward;
+    public bool[] playerModes;
     public int numBullets = 1;
     public int angleChange = -45;
 
-    private bool forward;
-    private float turn;
-
-    private Camera mainCam;
-    private Vector2 screenBounds;
-    private PlayerData playerData;
-    private SpriteRenderer spriteRenderer;
-    private Sprite[] sprites;
-    private bool[] playerModes;
-
-
-
     private void Awake() {
+        gameManager = FindObjectOfType<GameManager>();
         rigidBody = GetComponent<Rigidbody2D>();
+        movement = GetComponent<PlayerMovement>();
+        shooting = GetComponent<PlayerShoot>();
         bulletsFired = 0;
         curScore = 0;
         curTime = 0;
-        
-        // mainCam = gameObject.GetComponent<Camera>();
-        mainCam = Camera.main;
-
-        playerData = SaveManager.currentPlayer; //change to current player
+        playerData = SaveManager.currentPlayer;
         playerModes = playerData.getModes();
         sprites = Resources.LoadAll<Sprite>("Sprites");
         spriteRenderer = GameObject.Find("Player").GetComponent<SpriteRenderer>();
@@ -49,72 +39,16 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
-        if(playerModes[2]) {
-            forward = true;
-        } else {
-            forward = Input.GetKey(KeyCode.W) | Input.GetKey(KeyCode.UpArrow);
-        }
-
-        if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.LeftArrow)) {
-            turn = 1.0f;
-        }
-        else if (Input.GetKey(KeyCode.D) | Input.GetKey(KeyCode.RightArrow)) {
-            turn = -1.0f;
-        } else {
-            turn = 0.0f;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Space) | Input.GetMouseButtonDown(0) &
-                !GameManager.paused & !playerModes[0]) {
-            ShootBullets();
-        }
+        movement.update(this);
+        shooting.update(this);
     }
 
     private void LateUpdate() {
-        screenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCam.transform.position.z));
-
-        if(Mathf.Abs(transform.position.x) > screenBounds.x) {
-            float xPos = Mathf.Clamp(transform.position.x, screenBounds.x, -(screenBounds.x));
-            transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
-        }
-
-        if(Mathf.Abs(transform.position.y) > screenBounds.y) {
-            float yPos = Mathf.Clamp(transform.position.y, screenBounds.y, -(screenBounds.y));
-            transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
-        }
-        
+        movement.lateUpdate(this);
     }
 
     private void FixedUpdate() {
-        if (forward) {
-            rigidBody.AddForce(this.transform.up * this.moveForce);
-        }
-
-        if (turn != 0.0f) {
-            rigidBody.AddTorque(turn * this.turnForce);
-        }
-    }
-
-    private void ShootBullets() {
-        Vector3 fireAngle;
-        Quaternion rotation;
-        if(playerModes[1]) {
-            fireAngle = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
-            rotation = Random.rotation;
-            rotation *= Quaternion.Euler(0, 0, 0);
-        } else {
-            fireAngle = this.transform.up;
-            rotation = this.transform.rotation;
-            rotation *= Quaternion.Euler(0, 0, 0);
-        }
-
-        for (int i = 0; i < numBullets; i++) {
-            Bullet bullet = Instantiate(this.bulletPrefab, this.transform.position, rotation);
-            bullet.Shoot(fireAngle);
-            rotation *= Quaternion.Euler(0, 0, angleChange);
-            fireAngle = Quaternion.Euler(0, 0, angleChange) * fireAngle;
-        }
-        bulletsFired += numBullets;
+        movement.fixedUpdate(this);
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
@@ -122,7 +56,35 @@ public class Player : MonoBehaviour
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = 0.0f;
             this.gameObject.SetActive(false);
-            FindObjectOfType<GameManager>().PlayerDied();
+            gameManager.PlayerDied();
         }
+    }
+
+    public PlayerData getPlayerData() {
+        return this.playerData;
+    }
+
+    public Rigidbody2D getRigidBody() {
+        return this.rigidBody;
+    }
+
+    public void setName(string setName) {
+        this.playerName = setName;
+    }
+
+    public int getBulletsFired() {
+        return this.bulletsFired;
+    }
+
+    public int getNumBullets() {
+        return this.numBullets;
+    }
+
+    public void setNumBullets(int setNum) {
+        this.numBullets = setNum;
+    }
+
+    public void setBulletsFired(int setBullets) {
+        this.bulletsFired = setBullets;
     }
 }

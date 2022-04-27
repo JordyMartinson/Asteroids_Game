@@ -1,31 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AchievementManager : AchievementsSuper
 {
-    public GameObject achPanel;
-    public bool achActive = false;
-    public GameObject achTitle;
-
-
+    private GameObject achPanel;
+    private GameObject achTitle;
     public static bool[] triggers = new bool[numAchs];
     public static int ach01Count;
-    public int ach01TriggerInt = 1000;
-    public bool[] got = new bool[numAchs];
+    private static int ach01TriggerInt = 1000;
+    private bool[] got = new bool[numAchs];
 
-    public void Awake() {
+    private void Awake() {
         ach01Count = 0;
     }
 
-    // Update is called once per frame
-    public void Update()
-    {
+    private void Update() {
         triggers[1] = (ach01Count >= ach01TriggerInt);
-
         for(int i = 1; i < codes.Length; i++) {
-            // got[i] = PlayerPrefs.GetInt(codes[i]) == 1? true : false;
             got[i] = SaveManager.currentPlayer.getCodes()[i];
             if (triggers[i] && !got[i]) {
                 StartCoroutine( TriggerAch(i) );
@@ -33,11 +25,9 @@ public class AchievementManager : AchievementsSuper
         }
     }
 
-    IEnumerator TriggerAch(int i) {
-        achActive = true;
+    private IEnumerator TriggerAch(int i) {
         got[i] = true;
         triggers[i] = false;
-        // PlayerPrefs.SetInt(codes[i], got[i] ? 1:0);
         SaveManager.currentPlayer.setCode(i);
         AchPanel newPanel = Instantiate(achPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Header").transform);
         newPanel.title.GetComponent<Text>().text = titles[i];

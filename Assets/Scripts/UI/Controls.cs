@@ -3,17 +3,15 @@ using UnityEngine.UI;
 
 public class Controls : MonoBehaviour
 {
-    public GameObject controlsPanel;
-    public GameObject optionsMenu;
+    [SerializeField] private GameObject controlsPanel;
+    [SerializeField] private GameObject optionsMenu;
 
-    public void showControls() {
+    private void showControls() {
         controlsPanel.SetActive(true);
         optionsMenu.SetActive(false);
-        // optionsMenu.transform.localScale = Vector3.zero;
     }
 
-    public void hideControls() {
-        // optionsMenu.transform.localScale = Vector3.one;
+    private void hideControls() {
         optionsMenu.SetActive(true);
         controlsPanel.SetActive(false);
     }

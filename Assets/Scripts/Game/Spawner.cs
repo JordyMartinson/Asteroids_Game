@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public Asteroid asteroidPrefab;
-
-    public float spawnRate = 2.0f;
-    public float spawnDistance = 40.0f;
-    public float trajVariance = 15.0f;
-    public int spawnAmount = 1;
+    [SerializeField] private Asteroid asteroidPrefab;
+    private float spawnRate = 2.0f;
+    private float spawnDistance = 40.0f;
+    private float trajVariance = 15.0f;
+    private int spawnAmount = 1;
 
     private void Start() {
         InvokeRepeating(nameof(Spawn), this.spawnRate, this.spawnRate);
@@ -22,7 +21,7 @@ public class Spawner : MonoBehaviour
             Quaternion rotation = Quaternion.AngleAxis(variance, Vector3.forward);
 
             Asteroid asteroid = Instantiate(this.asteroidPrefab, spawnPoint, rotation);
-            asteroid.size = Random.Range(asteroid.minSize, asteroid.maxSize);
+            asteroid.setSize(Random.Range(asteroid.getMinSize(), asteroid.getMaxSize()));
             asteroid.SetTrajectory(rotation * -spawnDirection);
         }
     }
