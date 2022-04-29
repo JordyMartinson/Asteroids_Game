@@ -26,6 +26,7 @@ public class StatsMenu : MonoBehaviour
         timeSecs = SaveManager.currentPlayer.timePlayed % minuteDiv;
         highScore = SaveManager.currentPlayer.highScore;
         bulletsFired = SaveManager.currentPlayer.bulletsFired;
+
         highScoreText.text = string.Format("High Score:{0}{1} points", Environment.NewLine, highScore);
 
         if (timeMins == 1) {

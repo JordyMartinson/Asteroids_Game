@@ -124,10 +124,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void GameOver() {
-        SaveManager.UpdateSave(this.playerData);
         isGameOver = true;
         header.SetActive(false);
-        gameOver.Show(playerData.curScore);
+        gameOver.Show(playerData.curScore, playerData.curTime);
     }
 
     public void LivesChange(bool change) {

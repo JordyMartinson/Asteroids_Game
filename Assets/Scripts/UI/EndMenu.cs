@@ -9,17 +9,19 @@ public class EndMenu : MonoBehaviour
     [SerializeField] private Text subText;
     private GameManager gameManager;
     private int endScore = 0;
+    private int endTime = 0;
 
     private void Awake() {
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    public void Show(int total) {
+    public void Show(int tScore, float tTime) {
         gameObject.SetActive(true);
         headerText.text = "GAME OVER";
         subText.text = "FINAL SCORE";
-        scoreText.text = total.ToString();
-        endScore = total;
+        scoreText.text = tScore.ToString();
+        endScore = tScore;
+        endTime = (int) tTime;
     }
 
     public void Pause() {
@@ -41,6 +43,7 @@ public class EndMenu : MonoBehaviour
 
     private void QuitGame() {
         PlayerData pD = SaveManager.currentPlayer;
+        pD.curTime = endTime;
         SaveManager.UpdateSave(pD);
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);

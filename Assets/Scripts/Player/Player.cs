@@ -86,5 +86,6 @@ public class Player : MonoBehaviour
 
     public void setBulletsFired(int setBullets) {
         this.bulletsFired = setBullets;
+        playerData.setBulletsFired(bulletsFired);
     }
 }
